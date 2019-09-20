@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp(name = "mecanum")
-public class mecanum extends OpMode {
+public class    mecanum extends OpMode {
 
 
     private DcMotor motorLeft;
