@@ -1,6 +1,7 @@
 package com.aresrobotics.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.ArrayList;
@@ -33,28 +35,53 @@ public class vuforiaTest extends LinearOpMode {
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        //after assetName: write the name of the .XML dataset to load in quotes(aresSkystoneStickers is just a temporary name)
-        VuforiaTrackables aresSkystoneStickers = this.vuforia.loadTrackablesFromAsset("aresSkystoneStickers");
+        //after assetName: write the name of the .XML dataset to load in quotes(Skystone is just a temporary name)
+        VuforiaTrackables Skystone = this.vuforia.loadTrackablesFromAsset("Skystone");
 
         //C3P0 is the name of one of the images, 0 shows that it is the first image
-        VuforiaTrackable redPerimeterTarget1 = aresSkystoneStickers.get(0);
+        VuforiaTrackable redPerimeterTarget1 = Skystone.get(0);
         redPerimeterTarget1.setName("redPerimeterTarget1");
 
-        VuforiaTrackable redPerimeterTarget2 = aresSkystoneStickers.get(1);
-        redPerimeterTarget2.setName("redPerimeterTarget2");
 
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(aresSkystoneStickers);
+        allTrackables.addAll(Skystone);
 
-        float mmPerInch        = 25.4f;
-        float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;
+        float mmPerInch = 25.4f;
+        float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;
 
-        OpenGLMatrix redBlockSideBridgeTarget1 = OpenGLMatrix.translation(mmFTCFieldWidth/2, 13*mmPerInch, 0).multiplied(Orientation.getRotationMatrix(
-                AxesReference.EXTRINSIC, AxesOrder.XZX,
-                AngleUnit.DEGREES, 90, 90, 0));
-                redPerimeterTarget1.setLocation(redBlockSideBridgeTarget1);
+        OpenGLMatrix redBlockSideBridgeTarget1 = OpenGLMatrix.translation(mmFTCFieldWidth / 2, 13 * mmPerInch, 0).multiplied(Orientation.getRotationMatrix
+                (AxesReference.EXTRINSIC, AxesOrder.XZX, AngleUnit.DEGREES, 90, 90, 0));
+        redPerimeterTarget1.setLocation(redBlockSideBridgeTarget1);
 
+        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix.translation(0, 0, 0).multiplied(Orientation.getRotationMatrix
+                (AxesReference.EXTRINSIC, AxesOrder.YZY, AngleUnit.DEGREES, -90, 0, 0));
 
+        ((VuforiaTrackableDefaultListener) redPerimeterTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+
+        telemetry.addData(">", "Wait for start");
+        telemetry.update();
+        waitForStart();
+
+        telemetry.clear();
+
+        Skystone.activate();
+
+        while (opModeIsActive()) {
+            for (VuforiaTrackable trackable : allTrackables) {
+
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    lastLocation = robotLocationTransform;
+                }
+            }
+
+            if(lastLocation == null) {
+                telemetry.addData("Location:", "Unknown");
+            } else {
+                telemetry.addData("Location:", lastLocation);
+            }
+
+        }
 
     }
 }
