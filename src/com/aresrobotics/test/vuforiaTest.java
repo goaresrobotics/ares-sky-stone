@@ -56,7 +56,7 @@ public class vuforiaTest extends LinearOpMode {
         TargetElement.setLocation(redBlockSideBridgeTarget1);
 
         OpenGLMatrix phoneLocation = OpenGLMatrix.translation(0, 0, 0).multiplied(Orientation.getRotationMatrix
-                (AxesReference.EXTRINSIC, AxesOrder.YZY, AngleUnit.DEGREES, -90, 0, 0));
+                (AxesReference.EXTRINSIC, AxesOrder.YZY, AngleUnit.DEGREES, 0, 0, 0));
 
         ((VuforiaTrackableDefaultListener) TargetElement.getListener()).setPhoneInformation(phoneLocation, parameters.cameraDirection);
 
