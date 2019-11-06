@@ -53,6 +53,7 @@ public class finalTeleop extends OpMode{
     lift.lift(liftMotor);
     grabber.grabber(trayGrabber);
     drive.drive(frontLeft, frontRight, backLeft, backRight);
+    arm.arm(dropper, spinner);
 
     }
 }

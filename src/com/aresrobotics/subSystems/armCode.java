@@ -32,6 +32,7 @@ public class armCode extends LinearOpMode {
             }
         }
 
+
         spinner.setPosition(spinnerPosition);
 
     }

@@ -13,7 +13,6 @@ public class vroomVroom extends LinearOpMode {
     public void drive(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight){
 
 
-
         double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
         double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
