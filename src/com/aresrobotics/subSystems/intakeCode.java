@@ -1,9 +1,22 @@
 package com.aresrobotics.subSystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class intakeCode {
+public abstract class intakeCode extends LinearOpMode {
 
-    public void intake(){
-       //private double intakeSpeed =
+    @Override
+    public void runOpMode() {
+
+
+    }
+
+    public void intake(DcMotor intakeLeft, DcMotor intakeRight) {
+
+        double intakeSpeed = gamepad2.right_stick_y;
+
+        intakeLeft.setPower(intakeSpeed);
+        intakeRight.setPower(-intakeSpeed);
+
     }
 }
