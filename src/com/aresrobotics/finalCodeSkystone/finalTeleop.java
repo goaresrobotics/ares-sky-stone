@@ -1,23 +1,20 @@
 package com.aresrobotics.finalCodeSkystone;
 
-import com.aresrobotics.subSystems.armCode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.aresrobotics.subSystems.intakeCode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.aresrobotics.subSystems.liftCode;
 import com.aresrobotics.subSystems.trayGrabber;
-import com.aresrobotics.subSystems.vroomVroom;
+import com.aresrobotics.subSystems.driveBase;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "TeleOp")
 public class finalTeleop extends OpMode{
 
-    private intakeCode intake;
-    private liftCode lift;
+    private com.aresrobotics.subSystems.intake intake;
+    private com.aresrobotics.subSystems.lift lift;
     private trayGrabber grabber;
-    private vroomVroom drive;
-    private armCode arm;
+    private driveBase drive;
+    private com.aresrobotics.subSystems.arm arm;
 
     DcMotor intakeLeft;
     DcMotor intakeRight;
@@ -50,7 +47,7 @@ public class finalTeleop extends OpMode{
     public void loop() {
 
     intake.intake(intakeLeft, intakeRight);
-    lift.lift(liftMotor);
+    //lift.lift(liftMotor);
     grabber.grabber(trayGrabber);
     drive.drive(frontLeft, frontRight, backLeft, backRight);
     arm.arm(dropper, spinner);
