@@ -5,11 +5,17 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class intake {
 
-    Gamepad gamepad;
+    Gamepad localGamepad;
 
-       public void intake(DcMotor intakeLeft, DcMotor intakeRight) {
+    public void intake(Gamepad gp){
 
-        double intakeSpeed = gamepad.right_stick_y;
+        gp = localGamepad;
+
+    }
+
+       public void runIntake(DcMotor intakeLeft, DcMotor intakeRight) {
+
+        double intakeSpeed = localGamepad.right_stick_y;
 
         intakeLeft.setPower(intakeSpeed);
         intakeRight.setPower(-intakeSpeed);

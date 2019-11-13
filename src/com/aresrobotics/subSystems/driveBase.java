@@ -2,20 +2,24 @@ package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class driveBase extends LinearOpMode {
+public class driveBase {
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    Gamepad localGamepad;
+
+    public void driveBase(Gamepad gp){
+
+        gp = localGamepad;
 
     }
 
-    public void drive(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight){
+    public void runDrive(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight){
 
 
-        double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double h = Math.hypot(localGamepad.left_stick_x, -localGamepad.left_stick_y);
+        double robotAngle = Math.atan2(-localGamepad.left_stick_y, localGamepad.left_stick_x) - Math.PI / 4;
+        double rightX = localGamepad.right_stick_x;
         final double v1 = h * Math.cos(robotAngle) - rightX;
         final double v2 = h * Math.sin(robotAngle) + rightX;
         final double v3 = h * Math.sin(robotAngle) - rightX;

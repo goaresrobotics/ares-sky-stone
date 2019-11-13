@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.aresrobotics.subSystems.trayGrabber;
 import com.aresrobotics.subSystems.driveBase;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -26,6 +27,7 @@ public class finalTeleop extends OpMode{
     Servo spinner;
     Servo dropper;
     Servo trayGrabber;
+    Gamepad gp;
 
     @Override
     public void init() {
@@ -40,17 +42,19 @@ public class finalTeleop extends OpMode{
         spinner = hardwareMap.servo.get("spinner");
         dropper = hardwareMap.servo.get("dropper");
         trayGrabber = hardwareMap.servo.get("trayGrabber");
+        gp.setGamepadId(1);
+        //id of 1 refers to the second gamepad
 
     }
 
     @Override
     public void loop() {
 
-    intake.intake(intakeLeft, intakeRight);
-    //lift.lift(liftMotor);
-    grabber.grabber(trayGrabber);
-    drive.drive(frontLeft, frontRight, backLeft, backRight);
-    arm.arm(dropper, spinner);
+    intake.runIntake(intakeLeft, intakeRight);
+    lift.runLift(liftMotor);
+    grabber.runGrabber(trayGrabber);
+    drive.runDrive(frontLeft, frontRight, backLeft, backRight);
+    arm.runArm(dropper, spinner);
 
     }
 }
