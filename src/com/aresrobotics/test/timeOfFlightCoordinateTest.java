@@ -1,11 +1,13 @@
 package com.aresrobotics.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@TeleOp(name = "ToFCoordinateTest")
 public class timeOfFlightCoordinateTest extends OpMode {
 
     private DistanceSensor left;
@@ -48,56 +50,80 @@ public class timeOfFlightCoordinateTest extends OpMode {
     @Override
     public void loop() {
 
-        if (left.getDistance(DistanceUnit.INCH) < 78.7401574803) {
-            x = -141.23 / 2 + left.getDistance(DistanceUnit.INCH);
-        } else {
-            if (right.getDistance(DistanceUnit.INCH) < 78.7401574803) {
-                x = 141.23 / 2 - right.getDistance(DistanceUnit.INCH);
-            } else {
-                //make this useless if it happens(this only happens if both sensors aren't working/out of range
-                x = 100;
-            }
-        }
-
-        if (front.getDistance(DistanceUnit.INCH) < 78.7401574803) {
-            y = 141.23 / 2 - front.getDistance(DistanceUnit.INCH);
-        } else {
-            if (back.getDistance(DistanceUnit.INCH) < 78.7401574803) {
-                y = -141.23 / 2 + back.getDistance(DistanceUnit.INCH);
-            } else {
-                //make this useless if it happens(this only happens if both sensors aren't working/out of range
-                y = 100;
-            }
-        }
+        telemetry.clearAll();
 
         if (!hasTimeStarted) {
 
             passedTime.startTime();
             hasTimeStarted = true;
             previousX = x;
+            previousY = y;
 
         }
 
-        if (xInterruption(passedTime.milliseconds()) == true) {
+        if (x != 1000) {
 
-            previousX = x;
-            isThereDisplacementX = false;
+            if (xInterruption(passedTime.milliseconds()) == true) {
+
+                previousX = x;
+                isThereDisplacementX = false;
+
+                telemetry.addData("X Position", x);
+
+            }
+
+
+            if (xInterruption(passedTime.milliseconds()) == false) {
+
+                displacedX = previousX - x;
+                isThereDisplacementX = true;
+
+                telemetry.addData("X Position", x + displacedX);
+
+            }
+
+
+        } else {
+
+
+            telemetry.addData("X is Out of Range", x);
 
         }
 
+        if (y != 1000) {
 
-        if (xInterruption(passedTime.milliseconds()) == false ) {
+            if (yInterruption(passedTime.milliseconds()) == true) {
 
-            displacedX = previousX - x;
-            isThereDisplacementX = true;
+                previousY = y;
+                isThereDisplacementX = false;
+                telemetry.addData("Y Position", y);
+
+            }
+
+
+            if (yInterruption(passedTime.milliseconds()) == false) {
+
+                displacedY = previousY - y;
+                isThereDisplacementY = true;
+                telemetry.addData("Y Position", y + displacedY);
+
+            }
+
+        } else {
+
+            telemetry.addLine("Y is Out of Range");
 
         }
+
+        telemetry.addData("Time", passedTime);
 
         if (passedTime.milliseconds() >= 100) {
 
             passedTime.reset();
 
         }
+
+        telemetry.update();
 
     }
 
@@ -112,8 +138,18 @@ public class timeOfFlightCoordinateTest extends OpMode {
             return true;
 
         }
-
-
     }
 
+    public boolean yInterruption(double timePassed) {
+
+        if (timePassed >= 100 && y - previousY > 3) {
+
+            return false;
+
+        } else {
+
+            return true;
+
+        }
+    }
 }
