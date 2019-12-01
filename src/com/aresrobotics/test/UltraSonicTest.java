@@ -28,6 +28,6 @@ private DistanceUnit unit;
         while (!isStopRequested()) {
             double unitIn = UltraSonic.getDistance(unit);
             telemetry.addData("Distance", unitIn);
-        };
+        }
     }
 }

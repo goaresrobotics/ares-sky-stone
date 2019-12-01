@@ -1,4 +1,4 @@
-package com.aresrobotics.samples.auto;
+package com.aresrobotics.auto;
 
 import com.aresrobotics.library.hardware.AresSampleRobot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -11,15 +11,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public abstract class Auto extends LinearOpMode{
-    public  AresSampleRobot aresBot   = new AresSampleRobot(telemetry, this);
+public abstract class Auto extends LinearOpMode {
+    public AresSampleRobot aresBot = new AresSampleRobot(telemetry, this);
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 560;
-    static final double     DRIVE_GEAR_REDUCTION    = -2.0;
-    static final double     WHEEL_DIAMETER_INCHES   = 4;
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = -0.6;
+    static final double COUNTS_PER_MOTOR_REV = 560;
+    static final double DRIVE_GEAR_REDUCTION = -1;
+    static final double WHEEL_DIAMETER_INCHES = 4;
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double DRIVE_SPEED = -0.6;
 
     public void runOpMode() {
 
@@ -27,7 +27,6 @@ public abstract class Auto extends LinearOpMode{
 
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
-
 
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -40,14 +39,14 @@ public abstract class Auto extends LinearOpMode{
         aresBot.motorLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         aresBot.motorRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry.addData("Path0",  "Starting at %7d :%7d",
+        telemetry.addData("Path0", "Starting at %7d :%7d",
                 aresBot.motorLeft.getCurrentPosition(),
                 aresBot.motorRight.getCurrentPosition());
         telemetry.update();
 
         waitForStart();
 
-            run();
+        run();
 
     }
 
@@ -63,10 +62,10 @@ public abstract class Auto extends LinearOpMode{
 
         if (opModeIsActive() && !isStopRequested()) {
 
-            newLeftTarget = aresBot.motorLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = aresBot.motorRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newLeftBackTarget = aresBot.motorLeftBack.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightBackTarget = aresBot.motorRightBack.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = aresBot.motorLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = aresBot.motorRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newLeftBackTarget = aresBot.motorLeftBack.getCurrentPosition() + (int) (leftInches * -COUNTS_PER_INCH);
+            newRightBackTarget = aresBot.motorRightBack.getCurrentPosition() + (int) (rightInches * -COUNTS_PER_INCH);
             aresBot.motorLeft.setTargetPosition(newLeftTarget);
             aresBot.motorRight.setTargetPosition(newRightTarget);
             aresBot.motorLeftBack.setTargetPosition(newLeftBackTarget);
@@ -87,8 +86,8 @@ public abstract class Auto extends LinearOpMode{
                     (runtime.seconds() < timeoutS) &&
                     (aresBot.motorLeft.isBusy() && aresBot.motorRight.isBusy())) {
 
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
                         aresBot.motorLeft.getCurrentPosition(),
                         aresBot.motorRight.getCurrentPosition());
                 telemetry.update();
@@ -106,41 +105,100 @@ public abstract class Auto extends LinearOpMode{
 
         }
     }
-    public void turn(double angle, double turnspeed, DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftBack, DcMotor motorRightBack)
-    {
+
+    public void turn(double angle) {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         Orientation orientation = imu.getAngularOrientation();
         parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
         imu.initialize(parameters);
 
-
         double left;
         double right;
 
+        double PCoefficient = 0.03;
+
+        double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
+
+        //May neeed to create front and back speed if motors go opposite directions
         left = turnspeed;
         right = -turnspeed;
 
-        while (angle>Math.abs(orientation.firstAngle) && !isStopRequested()){
-            motorLeft.setPower(left);
-            motorLeftBack.setPower(left);
-            motorRight.setPower(right);
-            motorRightBack.setPower(right);
+        while (angle > orientation.firstAngle && !isStopRequested()) {
+            aresBot.motorLeft.setPower(left);
+            aresBot.motorLeftBack.setPower(left);
+            aresBot.motorRight.setPower(right);
+            aresBot.motorRightBack.setPower(right);
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
         }
-        motorLeft.setPower(0);
-        motorLeftBack.setPower(0);
-        motorRight.setPower(0);
-        motorRightBack.setPower(0);
+
+        while (angle < orientation.firstAngle && !isStopRequested()) {
+            aresBot.motorLeft.setPower(left);
+            aresBot.motorLeftBack.setPower(left);
+            aresBot.motorRight.setPower(right);
+            aresBot.motorRightBack.setPower(right);
+            orientation = imu.getAngularOrientation();
+            telemetry.addData("Gyro", orientation.firstAngle);
+            telemetry.update();
+        }
+
+        aresBot.motorLeft.setPower(0);
+        aresBot.motorLeftBack.setPower(0);
+        aresBot.motorRight.setPower(0);
+        aresBot.motorRightBack.setPower(0);
 
     }
 
-    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
+    public void intake(boolean in) {
+
+        int speedIn;
+        int speedOut;
+
+        speedIn = 1;
+        speedOut = -1;
+
+        runtime.reset();
+
+
+        while (runtime.seconds() < 2) {
+
+            if (in) {
+
+                aresBot.intake1.setPower(speedIn);
+                aresBot.intake2.setPower(-speedIn);
+
+            } else {
+
+                aresBot.intake1.setPower(speedOut);
+                aresBot.intake2.setPower(-speedOut);
+
+            }
+        }
+    }
+
+    public void trayGrab(boolean grabIsTrue) {
+
+        double grabTray = 0.8;
+        double releaseTray = 0.2;
+
+        if(grabIsTrue){
+
+            aresBot.trayGrabber.setPosition(grabTray);
+
+        } else {
+
+            aresBot.trayGrabber.setPosition(releaseTray);
+
+        }
+
+    }
+
+
+
+    /*public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
     {
-
-
 
         Double liftSpeed;
         Double ratchetPos;
@@ -167,6 +225,6 @@ public abstract class Auto extends LinearOpMode{
         aresBot.motorRight.setPower(0.0);
         aresBot.motorRightBack.setPower(0.0);
 
-    }
+    }*/
 
 }
