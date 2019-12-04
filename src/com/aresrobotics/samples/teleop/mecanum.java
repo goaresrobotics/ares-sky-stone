@@ -3,7 +3,7 @@ package com.aresrobotics.samples.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import java.lang.Math;
 
 @TeleOp(name = "mecanum")
 public class    mecanum extends OpMode {
@@ -28,6 +28,12 @@ public class    mecanum extends OpMode {
     @Override
     public void loop()
     {
+
+
+        double angle = 0;
+
+        double newX = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2)+ Math.pow(gamepad1.left_stick_y, 2))*Math.cos(angle-Math.acos((gamepad1.left_stick_x)/Math.sqrt((Math.pow(gamepad1.left_stick_x, 2)+ Math.pow(gamepad1.left_stick_y, 2)))));
+        double newY = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2)+ Math.pow(gamepad1.left_stick_y, 2))*Math.sin(angle-Math.acos((gamepad1.left_stick_x)/Math.sqrt((Math.pow(gamepad1.left_stick_x, 2)+ Math.pow(gamepad1.left_stick_y, 2)))));
 
         double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
         double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
