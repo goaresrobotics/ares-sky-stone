@@ -1,10 +1,14 @@
 package com.aresrobotics.auto;
 
-public class insidePositionSitUnderBridgeBlue extends Auto {
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous (name = "insidePositionSitUnderBridge")
+public class insidePositionSitUnderBridge extends Auto {
 
     public void run(){
 
-        encoderDrive(1,1,1,0.5);
+        sleep(5000);
+        encoderDrive(1,14,14,0.5);
 
     }
 }

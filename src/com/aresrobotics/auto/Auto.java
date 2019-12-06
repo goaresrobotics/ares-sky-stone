@@ -106,7 +106,7 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
-    public void turn(double angle) {
+    public void turn(double angle, boolean turnRight) {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         Orientation orientation = imu.getAngularOrientation();
@@ -118,13 +118,17 @@ public abstract class Auto extends LinearOpMode {
 
         double PCoefficient = 0.03;
 
-        double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
+        while (angle != orientation.firstAngle && !isStopRequested() && turnRight == true) {
 
-        //May neeed to create front and back speed if motors go opposite directions
-        left = turnspeed;
-        right = -turnspeed;
+            double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
-        while (angle > orientation.firstAngle && !isStopRequested()) {
+            left = turnspeed;
+            right = -turnspeed;
+
+            telemetry.addData("the angle boi", orientation.firstAngle);
+            telemetry.addData("Target boi", angle);
+            telemetry.update();
+
             aresBot.motorLeft.setPower(left);
             aresBot.motorLeftBack.setPower(left);
             aresBot.motorRight.setPower(right);
@@ -132,13 +136,24 @@ public abstract class Auto extends LinearOpMode {
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
-        }
+    }
 
-        while (angle < orientation.firstAngle && !isStopRequested()) {
-            aresBot.motorLeft.setPower(left);
-            aresBot.motorLeftBack.setPower(left);
-            aresBot.motorRight.setPower(right);
-            aresBot.motorRightBack.setPower(right);
+        while (angle < orientation.firstAngle && !isStopRequested() && turnRight == false) {
+
+            double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
+
+            left = turnspeed;
+            right = -turnspeed;
+
+
+            telemetry.addData("the angle boi", orientation.firstAngle);
+            telemetry.addData("Target boi", angle);
+            telemetry.update();
+
+            aresBot.motorLeft.setPower(right);
+            aresBot.motorLeftBack.setPower(right);
+            aresBot.motorRight.setPower(left);
+            aresBot.motorRightBack.setPower(left);
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
@@ -150,8 +165,28 @@ public abstract class Auto extends LinearOpMode {
         aresBot.motorRightBack.setPower(0);
 
     }
+/*
+    public void skystoneFinder() {
 
-    public void intake(boolean in) {
+        //skyStonePosition shows where the skyStone is. 1 mean the skystone is the first block from the bridge. 2 means the second block from the bridge. etc
+        int skyStonePosition;
+
+        boolean isBlockFound = false;
+
+        if(!isBlockFound) {
+
+            aresBot.motorLeft.setPower(0.3);
+            aresBot.motorRight.setPower(0.3);
+            aresBot.motorLeftBack.setPower(0.3);
+            aresBot.motorRightBack.setPower(0.3);
+
+
+
+        }
+
+    }
+
+    cpublic void intake(boolean in) {
 
         int speedIn;
         int speedOut;
@@ -178,6 +213,8 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
+
+    //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
     public void trayGrab(boolean grabIsTrue) {
 
         double grabTray = 0.8;
@@ -197,7 +234,7 @@ public abstract class Auto extends LinearOpMode {
 
 
 
-    /*public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
+    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
     {
 
         Double liftSpeed;
@@ -226,5 +263,4 @@ public abstract class Auto extends LinearOpMode {
         aresBot.motorRightBack.setPower(0.0);
 
     }*/
-
 }

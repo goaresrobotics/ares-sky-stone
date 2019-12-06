@@ -2,19 +2,19 @@ package com.aresrobotics.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name = "Tray Position")
-public class trayPosition extends Auto {
+@Autonomous (name = "insidePositionGrabTrayBlue")
+public class insidePositionGrabTrayBlue extends Auto {
 
     public void run(){
 
-        encoderDrive(1, 1, 1, 0.5);
-        turn(90);
-        encoderDrive(1, -1, -1, 0.5);
-        //tray grab
-        encoderDrive(1, 1, 1, 0.5);
-        turn(90);
+        encoderDrive(0.3, 77, 77, 0.5);
+        turn(90, false);
+        encoderDrive(0.3, -10, -10, 0.5);
+       // trayGrab(true);
+        encoderDrive(0.3, 4, 4, 0.5);
+        turn(-90, true);
+        //trayGrab((false));
         encoderDrive(1, 1, 1, 0.5);
 
     }
-
 }

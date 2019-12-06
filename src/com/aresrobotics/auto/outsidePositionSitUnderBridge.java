@@ -2,8 +2,8 @@ package com.aresrobotics.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name = "outsidePositionSitUnderBridgeBlue")
-public class outsidePositionSitUnderBridgeBlue extends Auto {
+@Autonomous (name = "outsidePositionSitUnderBridge")
+public class outsidePositionSitUnderBridge extends Auto {
 
     public void run(){
 
