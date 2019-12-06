@@ -27,7 +27,6 @@ public abstract class Auto extends LinearOpMode {
 
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
-w
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -106,7 +105,7 @@ w
         }
     }
 
-    public void turn(double angle, boolean turnRight) {
+    public void turn(double angle) {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         Orientation orientation = imu.getAngularOrientation();
@@ -118,7 +117,7 @@ w
 
         double PCoefficient = 0.03;
 
-        while (angle != orientation.firstAngle && !isStopRequested() && turnRight == true) {
+        while (orientation.firstAngle < angle-0.5 || angle +0.5 < orientation.firstAngle && !isStopRequested() ) {
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
@@ -136,9 +135,9 @@ w
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
-    }
+        }
 
-        while (angle < orientation.firstAngle && !isStopRequested() && turnRight == false) {
+        /*while (orientation.firstAngle > angle-2.5 &&  +2.5 > orientation.firstAngle && !isStopRequested()) {
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
@@ -157,7 +156,7 @@ w
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
-        }
+        }*/
 
         aresBot.motorLeft.setPower(0);
         aresBot.motorLeftBack.setPower(0);

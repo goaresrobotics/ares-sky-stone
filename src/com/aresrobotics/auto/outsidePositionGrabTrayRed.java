@@ -9,11 +9,11 @@ public class outsidePositionGrabTrayRed extends Auto {
 
         sleep(5000);
         encoderDrive(0.3, 1, 1, 0.5);
-        turn(-90, true);
+        turn(-90);
         encoderDrive(0.3, 1, 1, 0.5);
         //trayGrab(true);
         encoderDrive(0.3, 1, 1, 0.5);
-        turn(-90, true);
+        turn(-90);
         //trayGrab(false);
         encoderDrive(0.3, 1, 1, 0.5);
 
