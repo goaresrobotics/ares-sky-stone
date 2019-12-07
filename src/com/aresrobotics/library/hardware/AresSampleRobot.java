@@ -1,6 +1,7 @@
 package com.aresrobotics.library.hardware;
 
 import com.aresrobotics.auto.Auto;
+import com.qualcomm.hardware.motors.RevRoboticsHdHexMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -54,9 +55,9 @@ public class AresSampleRobot {
       //  trayGrabber = hwMap.get(Servo.class, "trayGrabber");
 
         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motorRightBack.setDirection(DcMotor.Direction.REVERSE);
+        motorRightBack.setDirection(DcMotor.Direction.FORWARD);
         motorLeftBack.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motorRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motorRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         //intake1.setDirection(DcMotor.Direction.FORWARD);
         //intake2.setDirection(DcMotor.Direction.REVERSE);

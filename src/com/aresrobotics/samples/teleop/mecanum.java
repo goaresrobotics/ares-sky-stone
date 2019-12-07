@@ -46,6 +46,12 @@ public class    mecanum extends OpMode {
         motorRight = hardwareMap.dcMotor.get("motorRight");
         motorRightBack = hardwareMap.dcMotor.get("motorRightBack");
 
+        motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
     }
 
     @Override

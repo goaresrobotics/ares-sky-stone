@@ -3,32 +3,46 @@ package com.aresrobotics.subSystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class driveBase {
 
-    Gamepad localGamepad;
+    private DcMotor motorLeft;
+    private DcMotor motorLeftBack;
+    private DcMotor motorRight;
+    private DcMotor motorRightBack;
 
-    public void driveBase(Gamepad gp){
-
-        gp = localGamepad;
+    private void driveBase(){
 
     }
 
-    public void runDrive(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight){
+    public void driveInit(HardwareMap hwMap){
 
+        motorLeft = hwMap.dcMotor.get("motorLeft");
+        motorRight = hwMap.dcMotor.get("motorRight");
+        motorLeftBack = hwMap.dcMotor.get("motorLeftBack");
+        motorRightBack = hwMap.dcMotor.get("motorRightBack");
 
-        double h = Math.hypot(localGamepad.left_stick_x, -localGamepad.left_stick_y);
-        double robotAngle = Math.atan2(-localGamepad.left_stick_y, localGamepad.left_stick_x) - Math.PI / 4;
-        double rightX = localGamepad.right_stick_x;
-        final double v1 = h * Math.cos(robotAngle) - rightX;
-        final double v2 = h * Math.sin(robotAngle) + rightX;
-        final double v3 = h * Math.sin(robotAngle) - rightX;
-        final double v4 = h * Math.cos(robotAngle) + rightX;
+        motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontLeft.setPower(-v1);
-        frontRight.setPower(v2);
-        backLeft.setPower(-v3);
-        backRight.setPower(v4);
+    }
+
+    public void runDrive(double leftX, double leftY, double rightX){
+
+        double h = Math.hypot(leftX, -leftY);
+        double robotAngle = Math.atan2(-leftY, leftX) - Math.PI / 4;
+        final double v1 = h * Math.cos(robotAngle) + rightX;
+        final double v2 = h * Math.sin(robotAngle) - rightX;
+        final double v3 = h * Math.sin(robotAngle) + rightX;
+        final double v4 = h * Math.cos(robotAngle) - rightX;
+
+        motorLeft.setPower(-v1 * 4/5);
+        motorRight.setPower(v2 * 4/5);
+        motorLeftBack.setPower(-v3 * 4/5);
+        motorRightBack.setPower(v4 * 4/5);
 
     }
 }

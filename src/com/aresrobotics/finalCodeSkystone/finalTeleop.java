@@ -1,60 +1,45 @@
 package com.aresrobotics.finalCodeSkystone;
 
+import com.aresrobotics.subSystems.arm;
+import com.aresrobotics.subSystems.intake;
+import com.aresrobotics.subSystems.lift;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.aresrobotics.subSystems.trayGrabber;
 import com.aresrobotics.subSystems.driveBase;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "TeleOp")
 public class finalTeleop extends OpMode{
 
-    private com.aresrobotics.subSystems.intake intake;
-    private com.aresrobotics.subSystems.lift lift;
-    private trayGrabber grabber;
-    private driveBase drive;
-    private com.aresrobotics.subSystems.arm arm;
-
-    DcMotor intakeLeft;
-    DcMotor intakeRight;
-    DcMotor liftMotor;
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
-    Servo spinner;
-    Servo dropper;
-    Servo trayGrabber;
-    Gamepad gp;
+    private com.aresrobotics.subSystems.intake intake = new intake();
+    //private com.aresrobotics.subSystems.lift lift = new lift();
+    //private trayGrabber grabber = new trayGrabber();
+    private driveBase drive = new driveBase();
+    //private com.aresrobotics.subSystems.arm arm = new arm();
 
     @Override
     public void init() {
 
-        liftMotor = hardwareMap.dcMotor.get("liftMotor");
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
-        backRight = hardwareMap.dcMotor.get("backRight");
-        intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
-        intakeRight = hardwareMap.dcMotor.get("intakeRight");
-        spinner = hardwareMap.servo.get("spinner");
-        dropper = hardwareMap.servo.get("dropper");
-        trayGrabber = hardwareMap.servo.get("trayGrabber");
-        gp.setGamepadId(1);
-        //id of 1 refers to the second gamepad
+        drive.driveInit(hardwareMap);
+        intake.initIntake(hardwareMap);
+//        lift.initLift(hardwareMap);
+  //      grabber.initTrayGrab(hardwareMap);
+    //    arm.initArm(hardwareMap);
 
     }
 
     @Override
     public void loop() {
 
-    intake.runIntake(intakeLeft, intakeRight);
-    lift.runLift(liftMotor);
-    grabber.runGrabber(trayGrabber);
-    drive.runDrive(frontLeft, frontRight, backLeft, backRight);
-    arm.runArm(dropper, spinner);
+    intake.runIntake(gamepad2.right_stick_y);
+//    lift.runLift(gamepad2.right_trigger, gamepad2.left_trigger);
+  //  grabber.runGrabber(gamepad2.a, gamepad2.b);
+    drive.runDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+    //arm.runArm(gamepad2.x, gamepad2.y, gamepad2.left_bumper, gamepad2.right_bumper, gamepad2.left_stick_x);
 
     }
 }
