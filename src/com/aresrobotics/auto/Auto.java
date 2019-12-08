@@ -61,6 +61,11 @@ public abstract class Auto extends LinearOpMode {
 
         if (opModeIsActive() && !isStopRequested()) {
 
+            aresBot.motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorLeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
             newLeftTarget = aresBot.motorLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
             newRightTarget = aresBot.motorRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             newLeftBackTarget = aresBot.motorLeftBack.getCurrentPosition() + (int) (leftInches * -COUNTS_PER_INCH);
@@ -124,15 +129,16 @@ public abstract class Auto extends LinearOpMode {
             left = turnspeed;
             right = -turnspeed;
 
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+            telemetry.addData("Angle", orientation.firstAngle);
+            telemetry.addData("Target", angle);
             telemetry.update();
 
-            aresBot.motorLeft.setPower(left);
-            aresBot.motorLeftBack.setPower(-left);
-            aresBot.motorRight.setPower(right);
-            aresBot.motorRightBack.setPower(-right);
-            orientation = imu.getAngularOrientation();
+
+            aresBot.motorLeft.setPower(right);
+            aresBot.motorLeftBack.setPower(left);
+            aresBot.motorRight.setPower(left);
+            aresBot.motorRightBack.setPower(right);
+
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
         }
@@ -145,14 +151,15 @@ public abstract class Auto extends LinearOpMode {
             right = -turnspeed;
 
 
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+            telemetry.addData("angle", orientation.firstAngle);
+            telemetry.addData("Target", angle);
             telemetry.update();
 
-            aresBot.motorLeft.setPower(right);
-            aresBot.motorLeftBack.setPower(-right);
-            aresBot.motorRight.setPower(left);
-            aresBot.motorRightBack.setPower(-left);
+            aresBot.motorLeft.setPower(left);
+            aresBot.motorLeftBack.setPower(right);
+            aresBot.motorRight.setPower(right);
+            aresBot.motorRightBack.setPower(left);
+
             orientation = imu.getAngularOrientation();
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();

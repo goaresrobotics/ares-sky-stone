@@ -8,7 +8,7 @@ public class turnTest extends Auto {
 
     public void run(){
 
-        encoderDrive(0.3, 10, 10, 5);
+        //encoderDrive(0.3, 10, 10, 5);
         turn(90);
 
     }
