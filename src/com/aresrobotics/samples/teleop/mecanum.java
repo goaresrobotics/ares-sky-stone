@@ -1,10 +1,14 @@
 package com.aresrobotics.samples.teleop;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.lang.Math;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "mecanum")
 public class    mecanum extends OpMode {
@@ -15,6 +19,8 @@ public class    mecanum extends OpMode {
     private DcMotor motorLeftBack;
     private DcMotor motorRight;
     private DcMotor motorRightBack;
+
+    private BNO055IMU imu;
 
     private double LDistanceInches;
     private double LBDistanceInches;
@@ -41,6 +47,13 @@ public class    mecanum extends OpMode {
     public void init()
     {
 
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
+
+        imu.initialize(parameters);
+
         motorLeft = hardwareMap.dcMotor.get("motorLeft");
         motorLeftBack = hardwareMap.dcMotor.get("motorLeftBack");
         motorRight = hardwareMap.dcMotor.get("motorRight");
@@ -63,6 +76,26 @@ public class    mecanum extends OpMode {
             isTimeStarted = true;
         }*/
 
+        double x = gamepad1.left_stick_x;
+        double y = gamepad1.left_stick_y;
+        double newx;
+        double newy;
+        Orientation orientation  = imu.getAngularOrientation();
+        double angle = orientation.firstAngle+180;
+        if(x-angle*0.011111111111111>0)
+        {
+
+            newx = ((Math.sqrt((Math.pow(x, 2)+Math.pow(y, 2))))*Math.cos(angle - Math.acos(x/(Math.sqrt((Math.pow(x, 2)+Math.pow(y, 2)))))));
+
+        }
+        if(x+angle*0.011111111111111<0)
+        {
+
+            newx = -((Math.sqrt((Math.pow(x, 2)+Math.pow(y, 2))))*Math.cos(angle - Math.acos(x/(Math.sqrt((Math.pow(x, 2)+Math.pow(y, 2)))))));
+
+
+        }
+
         LDistanceInches = motorLeft.getCurrentPosition() * COUNTS_PER_INCH;
         LBDistanceInches = motorLeftBack.getCurrentPosition() * COUNTS_PER_INCH;
         RDistanceInches = motorRight.getCurrentPosition() * COUNTS_PER_INCH;
@@ -84,6 +117,7 @@ public class    mecanum extends OpMode {
 
 
 
+
         /*if(gamepad1.left_stick_x == 0.0 && gamepad1.left_stick_y == 0.0 && gamepad1.right_stick_x == 0.0 && leftDifference > 0.1) {
 
 
@@ -94,6 +128,8 @@ public class    mecanum extends OpMode {
         motorRight.setPower(v2 * 4/5);
         motorLeftBack.setPower(-v3 * 4/5);
         motorRightBack.setPower(v4 * 4/5);
+
+        telemetry.addData("angle", angle);
 
         /*if (runtime.milliseconds() >= 100) {
 

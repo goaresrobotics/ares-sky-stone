@@ -111,58 +111,56 @@ public abstract class Auto extends LinearOpMode {
     }
 
     public void turn(double angle) {
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        Orientation orientation = imu.getAngularOrientation();
         parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
-        imu.initialize(parameters);
+        aresBot.imu.initialize(parameters);
+        Orientation orientation = aresBot.imu.getAngularOrientation();
 
         double left;
         double right;
 
         double PCoefficient = 0.03;
 
-        while (orientation.firstAngle < angle && !isStopRequested() ) {
+        while (orientation.firstAngle < angle && !isStopRequested() )
+        {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
-            left = turnspeed;
-            right = -turnspeed;
+
 
             telemetry.addData("Angle", orientation.firstAngle);
             telemetry.addData("Target", angle);
             telemetry.update();
 
 
-            aresBot.motorLeft.setPower(right);
-            aresBot.motorLeftBack.setPower(left);
-            aresBot.motorRight.setPower(left);
-            aresBot.motorRightBack.setPower(right);
+            aresBot.motorLeft.setPower(turnspeed);
+            aresBot.motorLeftBack.setPower(-turnspeed);
+            aresBot.motorRight.setPower(-turnspeed);
+            aresBot.motorRightBack.setPower(turnspeed);
 
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
         }
 
-        while (orientation.firstAngle > angle && !isStopRequested()) {
+        while (orientation.firstAngle > angle && !isStopRequested())
+        {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
-
-            left = turnspeed;
-            right = -turnspeed;
-
 
             telemetry.addData("angle", orientation.firstAngle);
             telemetry.addData("Target", angle);
             telemetry.update();
 
-            aresBot.motorLeft.setPower(left);
-            aresBot.motorLeftBack.setPower(right);
-            aresBot.motorRight.setPower(right);
-            aresBot.motorRightBack.setPower(left);
+            aresBot.motorLeft.setPower(-turnspeed);
+            aresBot.motorLeftBack.setPower(turnspeed);
+            aresBot.motorRight.setPower(turnspeed);
+            aresBot.motorRightBack.setPower(-turnspeed);
 
-            orientation = imu.getAngularOrientation();
-            telemetry.addData("Gyro", orientation.firstAngle);
-            telemetry.update();
         }
 
         aresBot.motorLeft.setPower(0);
@@ -192,7 +190,8 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-    cpublic void intake(boolean in) {
+    public void intake(boolean in)
+    {
 
         int speedIn;
         int speedOut;
@@ -203,7 +202,8 @@ public abstract class Auto extends LinearOpMode {
         runtime.reset();
 
 
-        while (runtime.seconds() < 2) {
+        while (runtime.seconds() < 2)
+        {
 
             if (in) {
 
@@ -219,54 +219,25 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
-
     //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
-    public void trayGrab(boolean grabIsTrue) {
+    public void trayGrab(boolean grabIsTrue)
+    {
 
         double grabTray = 0.8;
         double releaseTray = 0.2;
 
-        if(grabIsTrue){
+        if(grabIsTrue)
+        {
 
             aresBot.trayGrabber.setPosition(grabTray);
 
-        } else {
+        } else
+        {
 
             aresBot.trayGrabber.setPosition(releaseTray);
 
         }
 
     }
-
-
-
-    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
-    {
-
-        Double liftSpeed;
-        Double ratchetPos;
-
-        ratchetPos = 0.98;
-        liftSpeed = -0.3;
-        ratchet.setPosition(ratchetPos);
-        lift.setPower(liftSpeed);
-        lift2.setPower(liftSpeed);
-        sleep(3000);
-        liftSpeed = 0.0;
-
-        sleep(500);
-
-        aresBot.motorLeftBack.setPower(0.5);
-        aresBot.motorLeft.setPower(-0.5);
-        aresBot.motorRight.setPower(0.5);
-        aresBot.motorRightBack.setPower(-0.5);
-
-        sleep(500);
-
-        aresBot.motorLeftBack.setPower(0.0);
-        aresBot.motorLeft.setPower(0.0);
-        aresBot.motorRight.setPower(0.0);
-        aresBot.motorRightBack.setPower(0.0);
-
-    }*/
+*/
 }
