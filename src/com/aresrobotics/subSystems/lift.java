@@ -15,6 +15,7 @@ public class lift {
     public void initLift(HardwareMap hwMap) {
 
         liftMotor = hwMap.dcMotor.get("liftMotor");
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 

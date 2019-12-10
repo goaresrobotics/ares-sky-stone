@@ -15,11 +15,11 @@ public abstract class Auto extends LinearOpMode {
     public AresSampleRobot aresBot = new AresSampleRobot(telemetry, this);
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double COUNTS_PER_MOTOR_REV = 560;
-    static final double DRIVE_GEAR_REDUCTION = -1;
-    static final double WHEEL_DIAMETER_INCHES = 4;
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.6;
+    final double COUNTS_PER_MOTOR_REV = aresBot.motorLeft.getMotorType().getTicksPerRev();
+    final double DRIVE_GEAR_REDUCTION = -1;
+    final double WHEEL_DIAMETER_INCHES = 4;
+    final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    final double DRIVE_SPEED = 0.6;
 
     public void runOpMode() {
 
@@ -106,38 +106,36 @@ public abstract class Auto extends LinearOpMode {
     }
 
     public void turn(double angle) {
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        Orientation orientation = imu.getAngularOrientation();
-        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
-        imu.initialize(parameters);
+
+        Orientation orientation = aresBot.imu.getAngularOrientation();
 
         double left;
         double right;
 
         double PCoefficient = 0.03;
 
-        while (orientation.firstAngle < angle && !isStopRequested() ) {
+        while (orientation.firstAngle < angle && !isStopRequested()) {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
             left = turnspeed;
             right = -turnspeed;
 
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+            telemetry.addData("Current Angle", orientation.firstAngle);
+            telemetry.addData("Target Angle", angle);
             telemetry.update();
 
             aresBot.motorLeft.setPower(left);
             aresBot.motorLeftBack.setPower(-left);
             aresBot.motorRight.setPower(right);
             aresBot.motorRightBack.setPower(-right);
-            orientation = imu.getAngularOrientation();
-            telemetry.addData("Gyro", orientation.firstAngle);
-            telemetry.update();
         }
 
         while (orientation.firstAngle > angle && !isStopRequested()) {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
@@ -145,17 +143,14 @@ public abstract class Auto extends LinearOpMode {
             right = -turnspeed;
 
 
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+            telemetry.addData("Current Angle", orientation.firstAngle);
+            telemetry.addData("Target Angle", angle);
             telemetry.update();
 
             aresBot.motorLeft.setPower(right);
             aresBot.motorLeftBack.setPower(-right);
             aresBot.motorRight.setPower(left);
             aresBot.motorRightBack.setPower(-left);
-            orientation = imu.getAngularOrientation();
-            telemetry.addData("Gyro", orientation.firstAngle);
-            telemetry.update();
         }
 
         aresBot.motorLeft.setPower(0);
@@ -164,6 +159,14 @@ public abstract class Auto extends LinearOpMode {
         aresBot.motorRightBack.setPower(0);
 
     }
+
+    public void moveOffOfWall() {
+
+        encoderDrive(0.3, 1, 1, 2);
+        turn(90);
+
+    }
+
 /*
     public void skystoneFinder() {
 

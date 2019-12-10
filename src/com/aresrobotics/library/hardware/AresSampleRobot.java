@@ -1,6 +1,7 @@
 package com.aresrobotics.library.hardware;
 
 import com.aresrobotics.auto.Auto;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.motors.RevRoboticsHdHexMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,6 +16,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 public class AresSampleRobot {
 
+
+
     public DcMotor motorLeft;
     public DcMotor motorRight;
     public DcMotor motorRightBack;
@@ -27,6 +30,8 @@ public class AresSampleRobot {
     private volatile boolean stopRequested = false;
 
    public Servo trayGrabber;
+
+   public BNO055IMU imu;
 
     HardwareMap hwMap = null;
     Telemetry telemetry;
@@ -54,6 +59,11 @@ public class AresSampleRobot {
 
       //  trayGrabber = hwMap.get(Servo.class, "trayGrabber");
 
+        BNO055IMU imu = hwMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
+        imu.initialize(parameters);
+
         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorRightBack.setDirection(DcMotor.Direction.FORWARD);
         motorLeftBack.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
@@ -80,6 +90,8 @@ public class AresSampleRobot {
         motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorLeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
 
     }
 }

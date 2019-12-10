@@ -21,6 +21,8 @@ public class arm {
         dropper = hwMap.servo.get("dropper");
         armRotate = hwMap.dcMotor.get("armRotate");
 
+        armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     public void runArm(boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
