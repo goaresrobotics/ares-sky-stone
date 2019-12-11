@@ -2,21 +2,25 @@ package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class lift {
 
-    Gamepad localGamepad;
+    DcMotor liftMotor;
 
-    public void lift(Gamepad gp){
-
-        gp = localGamepad;
+    public void lift(){
 
     }
 
-    public void runLift(DcMotor liftMotor) {
+    public void initLift(HardwareMap hwMap) {
 
-        double liftPower = (localGamepad.right_trigger - localGamepad.left_trigger) / 2;
+        liftMotor = hwMap.dcMotor.get("liftMotor");
 
+    }
+
+    public void runLift(double right_trigger, double left_trigger) {
+
+        double liftPower = (right_trigger - left_trigger) / 2;
         liftMotor.setPower(liftPower);
 
     }

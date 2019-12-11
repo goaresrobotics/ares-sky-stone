@@ -19,7 +19,7 @@ public abstract class Auto extends LinearOpMode {
     static final double DRIVE_GEAR_REDUCTION = -1;
     static final double WHEEL_DIAMETER_INCHES = 4;
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = -0.6;
+    static final double DRIVE_SPEED = 0.6;
 
     public void runOpMode() {
 
@@ -27,7 +27,6 @@ public abstract class Auto extends LinearOpMode {
 
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
-w
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -61,6 +60,11 @@ w
         int newRightBackTarget;
 
         if (opModeIsActive() && !isStopRequested()) {
+
+            aresBot.motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorLeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            aresBot.motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             newLeftTarget = aresBot.motorLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
             newRightTarget = aresBot.motorRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
@@ -106,57 +110,57 @@ w
         }
     }
 
-    public void turn(double angle, boolean turnRight) {
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+    public void turn(double angle) {
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        Orientation orientation = imu.getAngularOrientation();
         parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
-        imu.initialize(parameters);
+        aresBot.imu.initialize(parameters);
+        Orientation orientation = aresBot.imu.getAngularOrientation();
 
         double left;
         double right;
 
         double PCoefficient = 0.03;
 
-        while (angle != orientation.firstAngle && !isStopRequested() && turnRight == true) {
+        while (orientation.firstAngle < angle && !isStopRequested() )
+        {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
-            left = turnspeed;
-            right = -turnspeed;
 
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+
+            telemetry.addData("Angle", orientation.firstAngle);
+            telemetry.addData("Target", angle);
             telemetry.update();
 
-            aresBot.motorLeft.setPower(left);
-            aresBot.motorLeftBack.setPower(left);
-            aresBot.motorRight.setPower(right);
-            aresBot.motorRightBack.setPower(right);
-            orientation = imu.getAngularOrientation();
+
+            aresBot.motorLeft.setPower(turnspeed);
+            aresBot.motorLeftBack.setPower(-turnspeed);
+            aresBot.motorRight.setPower(-turnspeed);
+            aresBot.motorRightBack.setPower(turnspeed);
+
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
-    }
+        }
 
-        while (angle < orientation.firstAngle && !isStopRequested() && turnRight == false) {
+        while (orientation.firstAngle > angle && !isStopRequested())
+        {
+
+            orientation = aresBot.imu.getAngularOrientation();
 
             double turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
-            left = turnspeed;
-            right = -turnspeed;
-
-
-            telemetry.addData("the angle boi", orientation.firstAngle);
-            telemetry.addData("Target boi", angle);
+            telemetry.addData("angle", orientation.firstAngle);
+            telemetry.addData("Target", angle);
             telemetry.update();
 
-            aresBot.motorLeft.setPower(right);
-            aresBot.motorLeftBack.setPower(right);
-            aresBot.motorRight.setPower(left);
-            aresBot.motorRightBack.setPower(left);
-            orientation = imu.getAngularOrientation();
-            telemetry.addData("Gyro", orientation.firstAngle);
-            telemetry.update();
+            aresBot.motorLeft.setPower(-turnspeed);
+            aresBot.motorLeftBack.setPower(turnspeed);
+            aresBot.motorRight.setPower(turnspeed);
+            aresBot.motorRightBack.setPower(-turnspeed);
+
         }
 
         aresBot.motorLeft.setPower(0);
@@ -186,7 +190,8 @@ w
 
     }
 
-    cpublic void intake(boolean in) {
+    public void intake(boolean in)
+    {
 
         int speedIn;
         int speedOut;
@@ -197,7 +202,8 @@ w
         runtime.reset();
 
 
-        while (runtime.seconds() < 2) {
+        while (runtime.seconds() < 2)
+        {
 
             if (in) {
 
@@ -213,54 +219,25 @@ w
         }
     }
 
-
     //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
-    public void trayGrab(boolean grabIsTrue) {
+    public void trayGrab(boolean grabIsTrue)
+    {
 
         double grabTray = 0.8;
         double releaseTray = 0.2;
 
-        if(grabIsTrue){
+        if(grabIsTrue)
+        {
 
             aresBot.trayGrabber.setPosition(grabTray);
 
-        } else {
+        } else
+        {
 
             aresBot.trayGrabber.setPosition(releaseTray);
 
         }
 
     }
-
-
-
-    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
-    {
-
-        Double liftSpeed;
-        Double ratchetPos;
-
-        ratchetPos = 0.98;
-        liftSpeed = -0.3;
-        ratchet.setPosition(ratchetPos);
-        lift.setPower(liftSpeed);
-        lift2.setPower(liftSpeed);
-        sleep(3000);
-        liftSpeed = 0.0;
-
-        sleep(500);
-
-        aresBot.motorLeftBack.setPower(0.5);
-        aresBot.motorLeft.setPower(-0.5);
-        aresBot.motorRight.setPower(0.5);
-        aresBot.motorRightBack.setPower(-0.5);
-
-        sleep(500);
-
-        aresBot.motorLeftBack.setPower(0.0);
-        aresBot.motorLeft.setPower(0.0);
-        aresBot.motorRight.setPower(0.0);
-        aresBot.motorRightBack.setPower(0.0);
-
-    }*/
+*/
 }

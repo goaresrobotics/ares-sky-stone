@@ -1,24 +1,31 @@
 package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class intake {
 
-    Gamepad localGamepad;
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
 
-    public void intake(Gamepad gp){
 
-        gp = localGamepad;
+    public void intake(){
 
     }
 
-       public void runIntake(DcMotor intakeLeft, DcMotor intakeRight) {
+    public void initIntake(HardwareMap hwMap){
 
-        double intakeSpeed = localGamepad.right_stick_y;
+        intakeLeft = hwMap.dcMotor.get("intakeLeft");
+        intakeRight = hwMap.dcMotor.get("intakeRight");
+
+    }
+
+       public void runIntake(double right_stick_y) {
+
+        double intakeSpeed = right_stick_y;
 
         intakeLeft.setPower(intakeSpeed);
-        intakeRight.setPower(-intakeSpeed);
+        intakeRight.setPower(intakeSpeed);
 
     }
 }

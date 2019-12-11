@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @TeleOp(name="imu test")
-@Disabled
+
 public class BN055Test extends LinearOpMode {
 
     @Override
@@ -23,19 +23,11 @@ public class BN055Test extends LinearOpMode {
 
         imu.initialize(parameters);
 
-        telemetry.addLine("initialized");
-        telemetry.update();
-
         waitForStart();
         telemetry.clear();
 
-        while (!isStopRequested()) {
-            Orientation orientation  = imu.getAngularOrientation();
-            telemetry.addData("1", orientation.firstAngle);
-            telemetry.addData("2", orientation.secondAngle);
-            telemetry.addData("3", orientation.thirdAngle);
-            telemetry.update();
-        }
+        Orientation orientation  = imu.getAngularOrientation();
+        telemetry.addData("1", orientation.firstAngle);
     }
 
 }

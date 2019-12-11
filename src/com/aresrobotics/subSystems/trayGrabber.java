@@ -2,30 +2,34 @@ package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class trayGrabber{
 
-    Gamepad localGamepad;
+    Servo trayGrabber;
 
-   public void trayGrabber(Gamepad gp){
-
-       gp = localGamepad;
+   public void trayGrabber(){
 
    }
 
-    public void runGrabber(Servo trayGrabber){
+   public void  initTrayGrab(HardwareMap hwmap){
+
+       trayGrabber = hwmap.servo.get("trayGrabber");
+
+   }
+
+    public void runGrabber(boolean a, boolean b){
 
         double up = 1;
         double down = 0;
 
-        if(localGamepad.a) {
+        if(a) {
             trayGrabber.setPosition(down);
          } else {
-            if(localGamepad.b) {
+            if(b) {
                 trayGrabber.setPosition(up);
             }
         }
-
     }
 }
