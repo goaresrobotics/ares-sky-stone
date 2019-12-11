@@ -160,13 +160,6 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-    public void moveOffOfWall() {
-
-        encoderDrive(0.3, 1, 1, 2);
-        turn(90);
-
-    }
-
 /*
     public void skystoneFinder() {
 
