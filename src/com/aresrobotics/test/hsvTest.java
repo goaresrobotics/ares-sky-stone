@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @TeleOp(name = "hsvColor")
-public class hsvTest extends OpMode {
+public class hsvTest extends OpMode
+{
 
     ColorSensor senseColor;
     double red;
@@ -17,11 +18,16 @@ public class hsvTest extends OpMode {
     }
 
 
+
     public void loop() {
+        
+        senseColor.enableLed(false);
 
         red = senseColor.red();
 
-        senseColor.enableLed(false);
+        telemetry.addData("Red", red);
+        telemetry.update();
+
 
         while(red<70) {
             red = senseColor.red();
