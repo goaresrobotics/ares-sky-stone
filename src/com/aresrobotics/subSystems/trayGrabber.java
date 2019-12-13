@@ -21,8 +21,8 @@ public class trayGrabber{
 
     public void runGrabber(boolean a, boolean b){
 
-        double up = 1;
-        double down = 0;
+        double up = 0.8;
+        double down = 0.62;
 
         if(a) {
             trayGrabber.setPosition(down);

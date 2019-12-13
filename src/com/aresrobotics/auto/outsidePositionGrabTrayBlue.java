@@ -8,14 +8,17 @@ public class outsidePositionGrabTrayBlue extends Auto {
     public void run(){
 
         sleep(5000);
-        encoderDrive(0.3, 77, 77, 10);
-        turn(90);
-        encoderDrive(0.3, -10, -10, 5);
-       // trayGrab(true);
-        encoderDrive(0.3, 10, 10, 5);
-        turn(-90);
-        //trayGrab(false);
-        encoderDrive(0.3, 60, 60, 10);
+        encoderDrive(0.3, 8, 8, 2);
+        turn(90,3);
+        encoderDrive(0.3, 79, 79, 7);
+        turn(179.69,3);
+        encoderDrive(0.3, -20, -20, 3);
+        trayGrab();
+        encoderDrive(0.3, 20, 20,  3);
+        turn(-90,3);
+        trayRelease();
+        encoderDrive(0.3, 50, 50, 7);
+
 
     }
 }

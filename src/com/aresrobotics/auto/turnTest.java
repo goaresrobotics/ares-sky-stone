@@ -8,8 +8,11 @@ public class turnTest extends Auto {
 
     public void run(){
 
-        encoderDrive(0.3, 10, 10, 5);
-        turn(90);
+        //encoderDrive(0.3, 10, 10, 5);
+        //turn(90);
+        trayGrab();
+        sleep(5000);
+        trayRelease();
 
     }
 }
