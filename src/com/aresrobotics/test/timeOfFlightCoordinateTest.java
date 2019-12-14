@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "ToFCoordinateTest")
+//@TeleOp(name = "ToFCoordinateTest")
 public class timeOfFlightCoordinateTest extends OpMode {
 
     private DistanceSensor left;

@@ -56,7 +56,7 @@ public class arm {
             armRotate.setPower(-left_stick_y/1.5);
         }
         if(left_stick_y>0){
-            armRotate.setPower(-left_stick_y/6);
+            armRotate.setPower(-left_stick_y/4);
         }
         if(left_stick_y==0){
             armRotate.setPower(0);

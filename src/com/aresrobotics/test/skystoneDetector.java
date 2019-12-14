@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@TeleOp(name = "Skystone Detector")
+//@TeleOp(name = "Skystone Detector")
 public class skystoneDetector extends OpMode {
     ColorSensor senseColor;
     double red;

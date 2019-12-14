@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name = "roverRuckusArmCode")
+//@TeleOp(name = "roverRuckusArmCode")
 
 public class roverRuckusArmCode extends OpMode {
 

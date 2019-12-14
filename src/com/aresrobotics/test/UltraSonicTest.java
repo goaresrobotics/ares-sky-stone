@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp (name="UltraSonic Test")
+//@TeleOp (name="UltraSonic Test")
 @Disabled
 public class UltraSonicTest extends LinearOpMode {
 

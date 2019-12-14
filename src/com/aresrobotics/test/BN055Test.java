@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@TeleOp(name="imu test")
+//@TeleOp(name="imu test")
 @Disabled
 public class BN055Test extends LinearOpMode {
 

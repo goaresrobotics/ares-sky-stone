@@ -111,14 +111,13 @@ public abstract class Auto extends LinearOpMode {
     public void turn(double angle, double timeout) {
 
         runtime.reset();
-
+        runtime.startTime();
         Orientation orientation = aresBot.imu.getAngularOrientation();
 
         double PCoefficient = 0.0125;
-        while(runtime.seconds() < timeout) {
             if (orientation.firstAngle < angle - 0.5) {
 
-                while (orientation.firstAngle < angle - 0.5 && !isStopRequested()) {
+                while (orientation.firstAngle < angle - 0.5 && !isStopRequested() && runtime.seconds() < timeout) {
 
                     double turnspeed = -(angle - orientation.firstAngle) * PCoefficient;
 
@@ -138,7 +137,7 @@ public abstract class Auto extends LinearOpMode {
             }
             if (orientation.firstAngle > angle + 0.5) {
 
-                while (orientation.firstAngle > angle + 0.5 && !isStopRequested()) {
+                while (orientation.firstAngle > angle + 0.5 && !isStopRequested() && runtime.seconds() < timeout) {
 
                     double turnspeed = -(angle - orientation.firstAngle) * PCoefficient;
 
@@ -156,7 +155,7 @@ public abstract class Auto extends LinearOpMode {
 
 
                 }
-            }
+
         }
                 aresBot.motorLeft.setPower(0);
                 aresBot.motorLeftBack.setPower(0);
