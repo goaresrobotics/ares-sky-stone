@@ -44,8 +44,9 @@ public class    mecanum extends OpMode {
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         double power = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+        double angleToZero = Math.acos(y/power);
 
-        if((x>=0 && )||())
+        if(angleToZero-2*Math.PI*power>0)
         {
 
 
@@ -54,8 +55,8 @@ public class    mecanum extends OpMode {
         double newX = power*(Math.cos(angle-Math.acos(x/power)));
         double newY = power*(Math.sin(angle-Math.acos(x/power)));
 
-        double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+        double h = Math.hypot(newX, -newY);
+        double robotAngle = Math.atan2(-newY, newX) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
         final double v1 = h * Math.cos(robotAngle) + rightX;
         final double v2 = h * Math.sin(robotAngle) - rightX;
