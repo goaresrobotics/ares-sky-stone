@@ -1,10 +1,13 @@
 package com.aresrobotics.samples.teleop;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "mecanum")
 public class    mecanum extends OpMode {
@@ -15,11 +18,15 @@ public class    mecanum extends OpMode {
     private DcMotor motorLeftBack;
     private DcMotor motorRight;
     private DcMotor motorRightBack;
+    private BNO055IMU gyro;
 
     @Override
     public void init()
     {
-
+        gyro = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        gyro.initialize(parameters);
         motorLeft = hardwareMap.dcMotor.get("motorLeft");
         motorLeftBack = hardwareMap.dcMotor.get("motorLeftBack");
         motorRight = hardwareMap.dcMotor.get("motorRight");
@@ -31,6 +38,21 @@ public class    mecanum extends OpMode {
     public void loop()
     {
 
+
+        Orientation orientation  = gyro.getAngularOrientation();
+        double angle = orientation.firstAngle;
+        double x = gamepad1.left_stick_x;
+        double y = gamepad1.left_stick_y;
+        double power = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+
+        if((x>=0 && )||())
+        {
+
+
+
+        }
+        double newX = power*(Math.cos(angle-Math.acos(x/power)));
+        double newY = power*(Math.sin(angle-Math.acos(x/power)));
 
         double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
         double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;

@@ -27,7 +27,7 @@ public abstract class Auto extends LinearOpMode {
 
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
-w
+
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
