@@ -10,6 +10,9 @@ public class arm {
     Servo spinner;
     Servo dropper;
     DcMotor armRotate;
+    double drop = 0.5;
+    double hold = 0.18;
+    double spinnerPosition = 0;
 
     public void arm() {
 
@@ -27,39 +30,38 @@ public class arm {
 
     public void runArm(boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
-        double drop = 1;
-        double hold = 0;
-        double spinnerPosition = 0;
-
-        if (x && y) {
-
-        } else {
-
             if (x) {
-                dropper.setPosition(drop);
+                spinner.setPosition(drop);
             }
 
             if (y) {
-                dropper.setPosition((hold));
+                spinner.setPosition((hold));
             }
+
+
+                    if (left_bumper) {
+                spinnerPosition = 1;
+            } else {
+
+                if (right_bumper) {
+                    spinnerPosition = 0;
+                }
+            }
+
+
+
+        dropper.setPosition(spinnerPosition);
+
+        if(left_stick_y<0){
+            armRotate.setPower(-left_stick_y/1.5);
+        }
+        if(left_stick_y>0){
+            armRotate.setPower(-left_stick_y/4);
+        }
+        if(left_stick_y==0){
+            armRotate.setPower(0);
         }
 
-        if(left_bumper && right_bumper) {
-
-        } else {
-
-            if (left_bumper) {
-                spinnerPosition += 0.1;
-            }
-
-            if (right_bumper) {
-                spinnerPosition -= 0.1;
-            }
-        }
-
-        spinner.setPosition(spinnerPosition);
-
-        armRotate.setPower(left_stick_y/3);
 
     }
 }

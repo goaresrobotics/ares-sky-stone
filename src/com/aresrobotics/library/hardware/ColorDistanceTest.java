@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@TeleOp(name = "ColorDistanceTest")
+//@TeleOp(name = "ColorDistanceTest")
 public class ColorDistanceTest extends OpMode{
 
 DistanceSensor colDisSense;

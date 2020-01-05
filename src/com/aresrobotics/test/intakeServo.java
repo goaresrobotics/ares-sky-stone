@@ -9,7 +9,7 @@ import com.aresrobotics.library.hardware.AresSampleRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
-@TeleOp(name = "Test : Servo")
+//@TeleOp(name = "Test : Servo")
 @Disabled
 public class intakeServo extends OpMode
 {
