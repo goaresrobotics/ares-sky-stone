@@ -4,13 +4,11 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "mecanum")
-public class    mecanum extends OpMode {
+public class mecanum extends OpMode {
     //private ElapsedTime runtime = new ElapsedTime();
 
 
@@ -34,8 +32,8 @@ public class    mecanum extends OpMode {
 
     }
 
-    double newX = 0;
-    double newY = 0;
+    private double newX = 0;
+    private double newY = 0;
 
     @Override
     public void loop()
