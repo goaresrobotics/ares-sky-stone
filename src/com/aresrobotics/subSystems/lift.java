@@ -21,14 +21,66 @@ public class lift {
 
     }
 
-    public void runLift(double right_trigger, double left_trigger) {
+    boolean prevValue = false;
+    int liftHeightValue = 0;
+
+
+    public void runLift(boolean right_bumper, double right_Trigger) {
 
 
 
+        if(right_bumper == true && prevValue == false){
+            liftHeightValue =+ 1;
+            prevValue=true;
+        }
 
-            if (right_trigger > 0) {
+        if(right_bumper == false){
+            prevValue=false;
+        }
 
-                liftPower = right_trigger;
+        liftMotor.setPower(right_Trigger);
+
+        if(liftHeightValue==0)
+        {
+
+        }
+        if(liftHeightValue==1)
+        {
+
+        }
+        if(liftHeightValue==2)
+        {
+
+        }
+        if(liftHeightValue==3)
+        {
+
+        }
+        if(liftHeightValue==4)
+        {
+
+        }
+        if(liftHeightValue==5)
+        {
+
+        }
+        if(liftHeightValue==6)
+        {
+
+        }
+        if(liftHeightValue==7)
+        {
+
+        }
+        if(liftHeightValue==8)
+        {
+
+        }
+            /*
+            if (right_bumper > 0) {
+
+
+                liftPower = right_bumper;
 
             }
 
@@ -46,6 +98,7 @@ public class lift {
 
 
             liftMotor.setPower(liftPower);
+            */
 
     }
 }

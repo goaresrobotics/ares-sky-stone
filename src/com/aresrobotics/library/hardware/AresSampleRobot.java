@@ -23,6 +23,7 @@ public class AresSampleRobot {
     public Servo spinner;
     public Servo dropper;
     public Servo trayGrabber;
+    public Servo trayGrabber2;
     public DcMotor armRotate;
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
@@ -31,9 +32,7 @@ public class AresSampleRobot {
 
     private volatile boolean stopRequested = false;
 
-//oh
-
-   public BNO055IMU imu;
+    public BNO055IMU imu;
 
     HardwareMap hwMap = null;
     Telemetry telemetry;
