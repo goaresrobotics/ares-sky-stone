@@ -57,7 +57,7 @@ public abstract class Auto extends LinearOpMode {
 
     abstract void run();
 
-    public void encoderDrive(double speed,
+    public void encoderDrive(double speedLeft, double speedRight,
                              double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftTarget;
@@ -82,10 +82,10 @@ public abstract class Auto extends LinearOpMode {
             aresBot.motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             runtime.reset();
-            aresBot.motorLeft.setPower(Math.abs(speed));
-            aresBot.motorRight.setPower(Math.abs(speed));
-            aresBot.motorRightBack.setPower(Math.abs(speed));
-            aresBot.motorLeftBack.setPower(Math.abs(speed));
+            aresBot.motorLeft.setPower(Math.abs(speedLeft));
+            aresBot.motorRight.setPower(Math.abs(speedRight));
+            aresBot.motorRightBack.setPower(Math.abs(speedRight));
+            aresBot.motorLeftBack.setPower(Math.abs(speedLeft));
 
             while (!isStopRequested() &&
                     (runtime.seconds() < timeoutS) &&
@@ -119,7 +119,7 @@ public abstract class Auto extends LinearOpMode {
 
         double PCoefficient = 0.0105;
 
-        while (runtime.seconds() < timeout) {
+        while (runtime.seconds() < timeout && isStarted()) {
 
             turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 

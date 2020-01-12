@@ -8,7 +8,7 @@ public class outsidePositionSitUnderBridge extends Auto {
     public void run(){
 
         sleep(5000);
-        encoderDrive(0.3, 30, 30, 5);
+        encoderDrive(0.3,0.3, 30, 30, 5);
 
     }
 }

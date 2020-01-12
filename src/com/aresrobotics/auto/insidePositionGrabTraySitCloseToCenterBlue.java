@@ -1,14 +1,6 @@
 package com.aresrobotics.auto;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-@Config
-@Autonomous (name = "insidePositionGrabTrayBlue")
-public class insidePositionGrabTrayBlue extends Auto {
+public class insidePositionGrabTraySitCloseToCenterBlue extends Auto{
 
     public static int firstMove = 8;
     public static int secondMove = 65;
@@ -33,15 +25,12 @@ public class insidePositionGrabTrayBlue extends Auto {
         encoderDrive(0.11, 0.3, 60,60, 20);
         encoderDrive(0.1,0.1,-0.3,-0.3,2);
         trayRelease();
-        encoderDrive(0.4,0.4, 24,24,5);
-        turn(-90,3);
+        turn(0, 3);
+        encoderDrive(0.3, 0.3, 20, 20, 3);
+        turn(-90, 3);
+        encoderDrive(0.3, 0.3, 26, 26, 3);
 
-        //encoderDrive(0.3, 0.3, fourthMove, fourthMove,  7);
-        //turn(thirdTurn,3);
-        //trayRelease();
-        //sleep(1000);
-        //encoderDrive(0.4, 0.4, fifthMove, fifthMove, 7);
-        //turn(fourthTurn,3);
 
     }
+
 }
