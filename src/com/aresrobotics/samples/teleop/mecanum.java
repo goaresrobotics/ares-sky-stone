@@ -47,9 +47,9 @@ public class    mecanum extends OpMode {
         double angleToZero = Math.acos(y/power);
 
         if(angleToZero-2*Math.PI*power>0)
-        {
 
 
+                    {
 
         }
         double newX = power*(Math.cos(angle-Math.acos(x/power)));
