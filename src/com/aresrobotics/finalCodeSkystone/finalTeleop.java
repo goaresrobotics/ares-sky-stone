@@ -36,7 +36,7 @@ public class finalTeleop extends OpMode{
     public void loop() {
 
         intake.runIntake(gamepad1.right_trigger, gamepad1.left_trigger);
-        lift.runLift(gamepad2.right_bumper, gamepad2.right_trigger);
+        lift.runLift(gamepad2.left_bumper, gamepad2.right_bumper, gamepad2.left_trigger, gamepad2.right_trigger);
         grabber.runGrabber(gamepad2.a, gamepad2.b);
         drive.runDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.b, gamepad1.a);
         arm.runArm(gamepad2.x, gamepad2.y, gamepad2.left_bumper, gamepad2.right_bumper, gamepad2.left_stick_y);
