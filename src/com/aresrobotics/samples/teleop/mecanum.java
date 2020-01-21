@@ -57,7 +57,7 @@ public class mecanum extends OpMode {
         angle = orientation.firstAngle;
         x = gamepad1.left_stick_x;
         y = gamepad1.left_stick_y;
-        power = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+        power = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));  //check if zero and fix it later
         joystickAngle = Math.atan(x/y);
         joystickRobotAngle = angle-joystickAngle;
         newRobotAngle = joystickAngle-joystickRobotAngle;
