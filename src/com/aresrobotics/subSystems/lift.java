@@ -3,8 +3,20 @@ package com.aresrobotics.subSystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class lift {
+
+    Servo spinner;
+    Servo dropper;
+    DcMotor armRotate;
+    double whereArmStopped;
+    double armCurrentPosition;
+    boolean isArmMoving = false;
+    double stoppedMotorPower;
+
+    double dropperPosition = 0.58;
+    double spinnerPosition = 0.09;
 
     DcMotor liftMotor;
     double liftPower;
@@ -29,6 +41,11 @@ public class lift {
         liftMotor = hwMap.dcMotor.get("liftMotor");
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        spinner = hwMap.servo.get("spinner");
+        dropper = hwMap.servo.get("dropper");
+        armRotate = hwMap.dcMotor.get("armRotate");
+
+        armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
@@ -36,7 +53,7 @@ public class lift {
     int liftHeightValue = 0;
 
 
-    public void runLift(boolean left_bumper, boolean right_bumper, double left_trigger, double right_trigger) {
+    public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
         liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
 
@@ -46,23 +63,23 @@ public class lift {
 
         } else {
 
-            if (right_bumper == true && prevValue == false) {
+            if (dpad_up == true && prevValue == false) {
                 liftHeightValue = +1;
                 prevValue = true;
                 hasReachedIncrement = false;
             }
 
-            if (right_bumper == false) {
+            if (dpad_up == false) {
                 prevValue = false;
             }
 
-            if (left_bumper == true && prevValue == false) {
+            if (dpad_down == true && prevValue == false) {
                 liftHeightValue -= 1;
                 prevValue = true;
                 hasReachedIncrement = false;
             }
 
-            if (left_bumper == false) {
+            if (dpad_down == false) {
                 prevValue = false;
             }
         }
@@ -81,6 +98,13 @@ public class lift {
 
         }
 
+        if(left_trigger == 0 && right_trigger == 0){
+
+            liftPower = 0;
+
+        }
+
+        /*
         if(liftPosition > (liftHeightValue*oneIncrement) + startingHeight + 0.25 && !hasReachedIncrement) {
 
             liftPower = -0.3; //go down
@@ -99,7 +123,7 @@ public class lift {
             hasReachedIncrement = true;
 
         }
-
+*/
 
         /*
 
@@ -167,6 +191,42 @@ public class lift {
             */
 
             liftMotor.setPower(liftPower);
+
+        if (x) {
+            dropperPosition = 0.31;
+        }
+
+        if (y) {
+            dropperPosition = 0.58;
+        }
+
+        dropper.setPosition(dropperPosition);
+
+
+        if (left_bumper) {
+            spinnerPosition = 0.92;
+        } else {
+
+            if (right_bumper) {
+                spinnerPosition = 0.02;
+            }
+        }
+
+        /*
+        spinner.setPosition(spinnerPosition);
+
+        if(left_stick_y<0){
+            armRotate.setPower(left_stick_y);
+        }
+        if(left_stick_y>0){
+            armRotate.setPower(left_stick_y/4);
+        }
+        if(left_stick_y==0){
+
+            armRotate.setPower(0);
+
+        }
+        */
 
     }
 }
