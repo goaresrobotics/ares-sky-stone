@@ -184,9 +184,38 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
+        public void intake(boolean on){
 
+            if(on && isStarted()) {
 
+            aresBot.intakeLeft.setPower(-1);
+            aresBot.intakeRight.setPower(1);
 
+            }
+
+            if (!on && isStarted()){
+
+            aresBot.intakeLeft.setPower(0);
+            aresBot.intakeRight.setPower(0);
+
+            }
+
+        }
+
+        public void grabBlock(boolean onBlue){
+
+        if(onBlue){
+
+            turn(-45, 3);
+            intake(true);
+            encoderDrive(0.4, 0.4, 5, 5, 2);
+            encoderDrive(0.4, 0.4, -5, -5, 2);
+            intake(false);
+            turn(-90, 3);
+
+        }
+
+        }
 
     /*
         public void skystoneFinder()
