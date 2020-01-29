@@ -14,6 +14,8 @@ public class lift {
     double armCurrentPosition;
     boolean isArmMoving = false;
     double stoppedMotorPower;
+    double position = 0;
+    double PC = 0.025;
 
     double dropperPosition = 0.58;
     double spinnerPosition = 0.09;
@@ -99,6 +101,12 @@ public class lift {
         }
 
         if(left_trigger == 0 && right_trigger == 0){
+
+            liftPower = 0;
+
+        }
+
+        if(liftMotor.getCurrentPosition() <= 0 && liftPower < 0){
 
             liftPower = 0;
 
@@ -204,17 +212,17 @@ public class lift {
 
 
         if (left_bumper) {
-            spinnerPosition = 0.92;
+            spinnerPosition = 1;
         } else {
 
             if (right_bumper) {
-                spinnerPosition = 0.02;
+                spinnerPosition = 0.04;
             }
         }
 
-        /*
-        spinner.setPosition(spinnerPosition);
 
+        spinner.setPosition(spinnerPosition);
+/*
         if(left_stick_y<0){
             armRotate.setPower(left_stick_y);
         }
@@ -227,6 +235,20 @@ public class lift {
 
         }
         */
+
+        if(left_stick_y>0)
+        {
+
+            position+=1;
+
+        }
+        if(left_stick_y<0)
+        {
+
+            position-=1;
+
+        }
+        armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
 
     }
 }

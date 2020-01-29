@@ -2,7 +2,6 @@ package com.aresrobotics.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "insidePositionGrabTraySitCloseToCenterRed")
 public class insidePositionGrabTraySitCloseToCenterRed extends Auto {
 
     public static int firstMove = 8;
@@ -29,7 +28,7 @@ public class insidePositionGrabTraySitCloseToCenterRed extends Auto {
         encoderDrive(0.1,0.1,-0.3,-0.3,2);
         trayRelease();
         turn(0, 3);
-        encoderDrive(0.3, 0.3, 20, 20, 3);
+        encoderDrive(0.3, 0.3, 17, 17, 3);
         turn(90, 3);
         encoderDrive(0.3, 0.3, 26, 26, 3);
 

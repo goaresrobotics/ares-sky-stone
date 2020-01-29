@@ -24,8 +24,12 @@ public abstract class Auto extends LinearOpMode {
 
     double turnspeed;
 
-    double grabTray = 0.62;
-    double releaseTray = 0.8;
+    double strafeSpeed = 0.4;
+
+    double upLeft = 0.88;
+    double upRight = 0.12;
+    double downLeft = 0.32;
+    double downRight = 0.69;
 
     public void runOpMode() {
 
@@ -111,6 +115,37 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
+    public void strafe(boolean isStrafeRight, int milliseconds){
+
+        runtime.reset();
+
+        while(runtime.milliseconds() < milliseconds && isStarted()){
+
+            if(isStrafeRight){
+
+            aresBot.motorLeft.setPower(-strafeSpeed);
+            aresBot.motorRightBack.setPower(strafeSpeed);
+            aresBot.motorRight.setPower(strafeSpeed);
+            aresBot.motorLeftBack.setPower(-strafeSpeed);
+
+        } else {
+
+            aresBot.motorLeft.setPower(strafeSpeed);
+            aresBot.motorRightBack.setPower(-strafeSpeed);
+            aresBot.motorRight.setPower(-strafeSpeed);
+            aresBot.motorLeftBack.setPower(strafeSpeed);
+
+        }
+
+        }
+
+        aresBot.motorLeft.setPower(0);
+        aresBot.motorRightBack.setPower(0);
+        aresBot.motorRight.setPower(0);
+        aresBot.motorLeftBack.setPower(0);
+
+    }
+
     public void turn(double angle, double timeout) {
 
         runtime.reset();
@@ -119,7 +154,7 @@ public abstract class Auto extends LinearOpMode {
 
         double PCoefficient = 0.0105;
 
-        while (runtime.seconds() < timeout && isStarted()) {
+        while (runtime.seconds() < timeout && isStarted() && isStarted()) {
 
             turnspeed = (angle - orientation.firstAngle) * PCoefficient;
 
@@ -222,7 +257,8 @@ public abstract class Auto extends LinearOpMode {
     //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
     public void trayGrab() {
 
-        aresBot.trayGrabber.setPosition(0.62);
+        aresBot.trayGrabberLeft.setPosition(downLeft);
+        aresBot.trayGrabberRight.setPosition(downRight);
         sleep(1000);
 
     }
@@ -230,7 +266,8 @@ public abstract class Auto extends LinearOpMode {
 
     public void trayRelease() {
 
-        aresBot.trayGrabber.setPosition(0.8);
+        aresBot.trayGrabberLeft.setPosition(upLeft);
+        aresBot.trayGrabberRight.setPosition(upRight);
         sleep(1000);
 
     }

@@ -6,8 +6,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Config
-@Autonomous (name = "insidePositionGrabTrayBlue")
 public class insidePositionGrabTrayBlue extends Auto {
 
     public static int firstMove = 8;

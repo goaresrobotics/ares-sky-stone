@@ -54,23 +54,19 @@ public class driveBase {
 
         if(slowModeButton){
 
-            motorLeft.setPower(-v1 * 2/5);
-            motorRight.setPower(v2 * 2/5);
-            motorLeftBack.setPower(-v3 * 2/5);
-            motorRightBack.setPower(v4 * 2/5);
+            motorLeft.setPower(-v1 * 1/2);
+            motorRight.setPower(v2 * 1/2);
+            motorLeftBack.setPower(-v3 * 1/2);
+            motorRightBack.setPower(v4 * 1/2);
 
         }
         if(!slowModeButton){
 
-            motorLeft.setPower(-v1 * 4/5);
-            motorRight.setPower(v2 * 4/5);
-            motorLeftBack.setPower(-v3 * 4/5);
-            motorRightBack.setPower(v4 * 4/5);
+            motorLeft.setPower(-v1);
+            motorRight.setPower(v2);
+            motorLeftBack.setPower(-v3);
+            motorRightBack.setPower(v4);
 
         }
-
-
-
-
     }
 }

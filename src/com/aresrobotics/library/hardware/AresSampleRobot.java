@@ -22,8 +22,8 @@ public class AresSampleRobot {
     public DcMotor motorLeftBack;
     public Servo spinner;
     public Servo dropper;
-    public Servo trayGrabber;
-    public Servo trayGrabber2;
+    public Servo trayGrabberLeft;
+    public Servo trayGrabberRight;
     public DcMotor armRotate;
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
@@ -55,7 +55,8 @@ public class AresSampleRobot {
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
         armRotate = hwMap.dcMotor.get("armRotate");
-        trayGrabber = hwMap.servo.get("trayGrabber");
+        trayGrabberLeft = hwMap.servo.get("trayGrabberLeft");
+        trayGrabberRight = hwMap.servo.get("trayGrabberRight");
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
         intakeRight = hwMap.dcMotor.get("intakeRight");
         liftMotor = hwMap.dcMotor.get("liftMotor");

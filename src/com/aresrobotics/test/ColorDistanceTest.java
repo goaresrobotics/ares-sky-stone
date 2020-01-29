@@ -1,4 +1,4 @@
-package com.aresrobotics.library.hardware;
+package com.aresrobotics.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

@@ -2,7 +2,6 @@ package com.aresrobotics.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name = "outsidePositionGrabTrayBlue")
 public class outsidePositionGrabTrayBlue extends Auto {
 
     //Tested

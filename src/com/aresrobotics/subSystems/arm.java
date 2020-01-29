@@ -31,26 +31,26 @@ public class arm {
     public void runArm(boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
             if (x) {
-                spinner.setPosition(drop);
+                dropper.setPosition(drop);
             }
 
             if (y) {
-                spinner.setPosition((hold));
+                dropper.setPosition((hold));
             }
 
 
                     if (left_bumper) {
-                spinnerPosition = 1;
+                    spinnerPosition = 0.95;
             } else {
 
                 if (right_bumper) {
-                    spinnerPosition = 0;
+                    spinnerPosition = 0.05;
                 }
             }
 
 
 
-        dropper.setPosition(spinnerPosition);
+        spinner.setPosition(spinnerPosition);
 
         if(left_stick_y<0){
             armRotate.setPower(-left_stick_y/1.5);

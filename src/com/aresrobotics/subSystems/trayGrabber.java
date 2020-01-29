@@ -7,7 +7,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class trayGrabber{
 
-    Servo trayGrabber;
+    Servo trayGrabberLeft;
+    Servo trayGrabberRight;
+
+    boolean isStarted = false;
+
+    double upLeft = 0.88;
+    double upRight = 0.12;
+    double downLeft = 0.32;
+    double downRight = 0.69;
 
    public void trayGrabber(){
 
@@ -15,20 +23,30 @@ public class trayGrabber{
 
    public void  initTrayGrab(HardwareMap hwmap){
 
-       trayGrabber = hwmap.servo.get("trayGrabber");
+       trayGrabberLeft = hwmap.servo.get("trayGrabberLeft");
+       trayGrabberRight = hwmap.servo.get("trayGrabberRight");
 
    }
 
     public void runGrabber(boolean a, boolean b){
 
-        double up = 0.8;
-        double down = 0.62;
+       if(!isStarted){
+
+           trayGrabberRight.setPosition(downRight);
+           trayGrabberLeft.setPosition(downLeft);
+
+           isStarted = true;
+
+       }
+
 
         if(a) {
-            trayGrabber.setPosition(down);
+            trayGrabberLeft.setPosition(downLeft);
+            trayGrabberRight.setPosition((downRight));
          } else {
             if(b) {
-                trayGrabber.setPosition(up);
+                trayGrabberLeft.setPosition(upLeft);
+                trayGrabberRight.setPosition(upRight);
             }
         }
     }
