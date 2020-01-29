@@ -4,8 +4,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class lift {
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     Servo spinner;
     Servo dropper;
@@ -14,8 +17,9 @@ public class lift {
     double armCurrentPosition;
     boolean isArmMoving = false;
     double stoppedMotorPower;
-    double position = 0;
+    int position = 0;
     double PC = 0.025;
+    boolean fourMilliseconds;
 
     double dropperPosition = 0.58;
     double spinnerPosition = 0.09;
@@ -248,7 +252,13 @@ public class lift {
             position-=1;
 
         }
-        armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+
+
+        armRotate.setTargetPosition(position);
+        armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotate.setPower(1);
+        armRotate.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
     }
 }
