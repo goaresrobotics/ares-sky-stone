@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-@TeleOp(name = "Drive")
+//@TeleOp(name = "Drive")
 public class ArcadeDrive extends OpMode {
 
     private boolean padState;

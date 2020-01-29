@@ -20,15 +20,19 @@ public class AresSampleRobot {
     public DcMotor motorRight;
     public DcMotor motorRightBack;
     public DcMotor motorLeftBack;
-    public BNO055IMU imu;
-    //public DcMotor intake1;
-    //public DcMotor intake2;
+    public Servo spinner;
+    public Servo dropper;
+    public Servo trayGrabberLeft;
+    public Servo trayGrabberRight;
+    public DcMotor armRotate;
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
+    public DcMotor liftMotor;
 
-    //public ColorSensor colorSense;
 
     private volatile boolean stopRequested = false;
 
-   public Servo trayGrabber;
+    public BNO055IMU imu;
 
     HardwareMap hwMap = null;
     Telemetry telemetry;
@@ -48,40 +52,36 @@ public class AresSampleRobot {
         motorRight = hwMap.get(DcMotor.class, "motorRight");
         motorLeftBack = hwMap.get(DcMotor.class, "motorLeftBack");
         motorRightBack = hwMap.get(DcMotor.class, "motorRightBack");
+        spinner = hwMap.servo.get("spinner");
+        dropper = hwMap.servo.get("dropper");
+        armRotate = hwMap.dcMotor.get("armRotate");
+        trayGrabberLeft = hwMap.servo.get("trayGrabberLeft");
+        trayGrabberRight = hwMap.servo.get("trayGrabberRight");
+        intakeLeft = hwMap.dcMotor.get("intakeLeft");
+        intakeRight = hwMap.dcMotor.get("intakeRight");
+        liftMotor = hwMap.dcMotor.get("liftMotor");
+
         imu = hwMap.get(BNO055IMU.class, "imu");
-        //colorSense = hwMap.get(ColorSensor.class, "ColorSensor");
-
-        //intake1 = hwMap.get(DcMotor.class, "intake1");
-        //intake2 = hwMap.get(DcMotor.class, "intake2");
-
-      //  trayGrabber = hwMap.get(Servo.class, "trayGrabber");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
+        imu.initialize(parameters);
 
         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorRightBack.setDirection(DcMotor.Direction.FORWARD);
         motorLeftBack.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motorRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
-        //intake1.setDirection(DcMotor.Direction.FORWARD);
-        //intake2.setDirection(DcMotor.Direction.REVERSE);
-
-       // trayGrabber.setDirection(Servo.Direction.FORWARD);
-
         motorLeft.setPower(0);
         motorRight.setPower(0);
         motorLeftBack.setPower(0);
         motorRightBack.setPower(0);
 
-       // intake1.setPower(0);
-        //intake2.setPower(0);
-
-    //    trayGrabber.setPosition(0.8);
-
-    //    colorSense.enableLed(false);
-
         motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorLeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
 
     }
 }

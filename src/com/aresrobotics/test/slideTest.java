@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
-@TeleOp(name = "Test: Slides")
+//@TeleOp(name = "Test: Slides")
 public class slideTest extends OpMode{
 
     ///DigitalChannel touchMe;

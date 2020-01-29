@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
-@TeleOp(name = "stickyTest")
+//@TeleOp(name = "stickyTest")
 public class stickyTest extends OpMode{
     private static boolean lastState;
 

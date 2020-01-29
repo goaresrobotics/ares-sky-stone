@@ -10,7 +10,7 @@ import java.lang.Math;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name = "mecanum")
+//@TeleOp(name = "mecanum")
 public class    mecanum extends OpMode {
     //private ElapsedTime runtime = new ElapsedTime();
 

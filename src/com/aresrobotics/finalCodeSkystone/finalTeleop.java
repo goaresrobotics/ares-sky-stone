@@ -16,30 +16,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class finalTeleop extends OpMode{
 
     private com.aresrobotics.subSystems.intake intake = new intake();
-    //private com.aresrobotics.subSystems.lift lift = new lift();
-    //private trayGrabber grabber = new trayGrabber();
+    private com.aresrobotics.subSystems.lift lift = new lift();
+    private trayGrabber grabber = new trayGrabber();
     private driveBase drive = new driveBase();
-    //private com.aresrobotics.subSystems.arm arm = new arm();
 
     @Override
     public void init() {
 
         drive.driveInit(hardwareMap);
         intake.initIntake(hardwareMap);
-//        lift.initLift(hardwareMap);
-  //      grabber.initTrayGrab(hardwareMap);
-    //    arm.initArm(hardwareMap);
+        lift.initLift(hardwareMap);
+        grabber.initTrayGrab(hardwareMap);
 
     }
 
     @Override
     public void loop() {
 
-    intake.runIntake(gamepad2.right_stick_y);
-//    lift.runLift(gamepad2.right_trigger, gamepad2.left_trigger);
-  //  grabber.runGrabber(gamepad2.a, gamepad2.b);
-    drive.runDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-    //arm.runArm(gamepad2.x, gamepad2.y, gamepad2.left_bumper, gamepad2.right_bumper, gamepad2.left_stick_x);
+        intake.runIntake(gamepad1.right_trigger, gamepad1.left_trigger);
+        lift.runLift(gamepad2.dpad_down, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_trigger, gamepad2.x, gamepad2.y, gamepad2.left_bumper, gamepad2.right_bumper, gamepad2.left_stick_y);
+        grabber.runGrabber(gamepad1.right_bumper, gamepad1.left_bumper);
+        drive.runDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.b, gamepad1.a);
 
     }
 }

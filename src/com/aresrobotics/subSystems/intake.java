@@ -20,11 +20,11 @@ public class intake {
 
     }
 
-       public void runIntake(double right_stick_y) {
+       public void runIntake(float right_trigger, float left_trigger) {
 
-        double intakeSpeed = right_stick_y;
+        double intakeSpeed = right_trigger-left_trigger;
 
-        intakeLeft.setPower(intakeSpeed);
+        intakeLeft.setPower(-intakeSpeed);
         intakeRight.setPower(intakeSpeed);
 
     }
