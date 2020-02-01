@@ -7,13 +7,18 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.aresrobotics.auto.Auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-public class turnTest extends Auto {
+@Autonomous(name = "autoMethodsTest")
+public class autoMethodsTest extends Auto {
 
     public void run(){
 
-        strafe(false, 1100);
-        sleep(2000);
-        strafe(true, 1100);
+        intake(true, true);
+        sleep(1000);
+        intake(false, true);
+
+        sleep(1000);
+
+        //grabBlock(true);
 
     }
 }

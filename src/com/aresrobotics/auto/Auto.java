@@ -31,6 +31,11 @@ public abstract class Auto extends LinearOpMode {
     double downLeft = 0.32;
     double downRight = 0.69;
 
+    double grabBlockTurnIn = 45;
+    double grabBlockMove = 12;
+
+    double intakePower;
+
     public void runOpMode() {
 
         aresBot.init(hardwareMap);
@@ -184,12 +189,22 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-        public void intake(boolean on){
+        public void intake(boolean on, boolean in){
+
+            if (in) {
+
+                intakePower = 1;
+
+            } else {
+
+                intakePower = -1;
+
+            }
 
             if(on && isStarted()) {
 
-            aresBot.intakeLeft.setPower(-1);
-            aresBot.intakeRight.setPower(1);
+            aresBot.intakeLeft.setPower(-intakePower);
+            aresBot.intakeRight.setPower(intakePower);
 
             }
 
@@ -204,17 +219,27 @@ public abstract class Auto extends LinearOpMode {
 
         public void grabBlock(boolean onBlue){
 
-        if(onBlue){
+        if(onBlue && isStarted()){
 
-            turn(-45, 3);
-            intake(true);
-            encoderDrive(0.4, 0.4, 5, 5, 2);
-            encoderDrive(0.4, 0.4, -5, -5, 2);
-            intake(false);
+            turn(-grabBlockTurnIn, 3);
+            intake(true, true);
+            encoderDrive(0.4, 0.4, grabBlockMove, grabBlockMove, 2);
+            encoderDrive(0.4, 0.4, -grabBlockMove, -grabBlockMove, 2);
+            intake(false, true);
             turn(-90, 3);
 
         }
 
+        if (!onBlue && isStarted()) {
+
+            turn(grabBlockTurnIn, 3);
+            intake(true, true);
+            encoderDrive(0.4, 0.4, grabBlockMove, grabBlockMove, 2);
+            encoderDrive(0.4, 0.4, -grabBlockMove, -grabBlockMove, 2);
+            intake(false, true);
+            turn(90, 3);
+
+            }
         }
 
     /*
