@@ -106,11 +106,11 @@ public class lift {
 
         }
 
-        if(liftMotor.getCurrentPosition() <= 0 && liftPower < 0){
+        /*if(liftMotor.getCurrentPosition() <= 0 && liftPower < 0){
 
             liftPower = 0;
 
-        }
+        }*/
 
         /*
         if(liftPosition > (liftHeightValue*oneIncrement) + startingHeight + 0.25 && !hasReachedIncrement) {

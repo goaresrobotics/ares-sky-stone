@@ -12,6 +12,12 @@ public class driveBase {
     private DcMotor motorRight;
     private DcMotor motorRightBack;
 
+    double v1Power;
+    double v2Power;
+    double v3Power;
+    double v4Power;
+
+
     boolean slowModeButton = false;
 
     private void driveBase(){
@@ -41,6 +47,31 @@ public class driveBase {
         final double v3 = h * Math.sin(robotAngle) + rightX;
         final double v4 = h * Math.cos(robotAngle) - rightX;
 
+        if(v1 >= 0) {
+            v1Power = Math.pow(v1, 2);
+        } else {
+            v1Power = -Math.pow(v1, 2);
+        }
+
+        if(v2 >= 0) {
+            v2Power = Math.pow(v2, 2);
+        } else {
+            v2Power = -Math.pow(v2, 2);
+        }
+
+        if(v3 >= 0) {
+            v3Power = Math.pow(v3, 2);
+        } else {
+            v3Power = -Math.pow(v3, 2);
+        }
+
+        if(v4 >= 0) {
+            v4Power = Math.pow(v4, 2);
+        } else {
+            v4Power = -Math.pow(v4, 2);
+        }
+
+
         if(b){
 
             slowModeButton=true;
@@ -52,20 +83,21 @@ public class driveBase {
 
         }
 
+
         if(slowModeButton){
 
-            motorLeft.setPower(-v1 * 1/2);
-            motorRight.setPower(v2 * 1/2);
-            motorLeftBack.setPower(-v3 * 1/2);
-            motorRightBack.setPower(v4 * 1/2);
+            motorLeft.setPower(-v1Power * 1/2);
+            motorRight.setPower(v2Power * 1/2);
+            motorLeftBack.setPower(-v3Power * 1/2);
+            motorRightBack.setPower(v4Power * 1/2);
 
         }
         if(!slowModeButton){
 
-            motorLeft.setPower(-v1);
-            motorRight.setPower(v2);
-            motorLeftBack.setPower(-v3);
-            motorRightBack.setPower(v4);
+            motorLeft.setPower(-v1Power);
+            motorRight.setPower(v2Power);
+            motorLeftBack.setPower(-v3Power);
+            motorRightBack.setPower(v4Power);
 
         }
     }
