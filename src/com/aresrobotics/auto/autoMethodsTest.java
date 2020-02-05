@@ -12,12 +12,21 @@ public class autoMethodsTest extends Auto {
 
     public void run(){
 
-        intake(true, true);
-        sleep(1000);
-        intake(false, true);
+        while(isStarted()) {
+            aresBot.motorRight.setPower(0.4);
+            aresBot.motorRightBack.setPower(0.4);
+            aresBot.motorLeft.setPower(-0.4);
+            aresBot.motorLeftBack.setPower(-0.4);
 
-        sleep(1000);
+            sleep(2000);
 
+            aresBot.motorRight.setPower(0);
+            aresBot.motorRightBack.setPower(0);
+            aresBot.motorLeft.setPower(0);
+            aresBot.motorLeftBack.setPower(0);
+
+            sleep(2000);
+        }
         //grabBlock(true);
 
     }

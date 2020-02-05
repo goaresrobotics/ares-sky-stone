@@ -1,10 +1,17 @@
 package com.aresrobotics.subSystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+@Config
 public class driveBase {
 
     private DcMotor motorLeft;
@@ -12,11 +19,10 @@ public class driveBase {
     private DcMotor motorRight;
     private DcMotor motorRightBack;
 
-    double v1Power;
-    double v2Power;
-    double v3Power;
-    double v4Power;
-
+    public static double v1Power;
+    public static double v2Power;
+    public static double v3Power;
+    public static double v4Power;
 
     boolean slowModeButton = false;
 
@@ -24,7 +30,7 @@ public class driveBase {
 
     }
 
-    public void driveInit(HardwareMap hwMap){
+    public void driveInit(HardwareMap hwMap, Telemetry telemetry){
 
         motorLeft = hwMap.dcMotor.get("motorLeft");
         motorRight = hwMap.dcMotor.get("motorRight");
@@ -36,9 +42,14 @@ public class driveBase {
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        TelemetryPacket packet = new TelemetryPacket();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+
+
     }
 
-    public void runDrive(double leftX, double leftY, double rightX, boolean b, boolean a){
+    public void runDrive(double leftX, double leftY, double rightX, boolean b, boolean a, boolean dPad_Up, boolean dPad_Down){
 
         double h = Math.hypot(leftX, -leftY);
         double robotAngle = Math.atan2(-leftY, leftX) - Math.PI / 4;
@@ -83,6 +94,23 @@ public class driveBase {
 
         }
 
+        if(dPad_Up) {
+
+            v1Power = 0.5;
+            v2Power = 0.5;
+            v3Power = 0.5;
+            v4Power = 0.5;
+
+        }
+
+        if(dPad_Down) {
+
+            v1Power = -0.5;
+            v2Power = -0.5;
+            v3Power = -0.5;
+            v4Power = -0.5;
+
+        }
 
         if(slowModeButton){
 
@@ -100,5 +128,6 @@ public class driveBase {
             motorRightBack.setPower(v4Power);
 
         }
+
     }
 }
