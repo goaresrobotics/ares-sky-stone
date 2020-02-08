@@ -25,17 +25,17 @@ public class insideTraysidePositionGrabTrayRed extends Auto {
     public void run() {
 
         encoderDrive(0.4, 0.4, firstMove, firstMove, 2);
-        turn(firstTurn, 3);
+        turn(firstTurn, 3, false);
         encoderDrive(0.4, 0.4, secondMove, secondMove, 7);
-        turn(secondTurn, 3);
+        turn(secondTurn, 3, false);
         encoderDrive(0.2, 0.2, thirdMove, thirdMove, 3);
         trayGrab();
         sleep(1000);
         encoderDrive(0.35, 0.1, 55,55, 20);
-        turn(90, 3);
+        turn(90, 3, false);
         trayRelease();
         encoderDrive(0.4, 0.4, -8, -8, 3);
-        turn(90,3);
+        turn(90,3, false);
         encoderDrive(0.4,0.4, 38,38,5);
 
     }

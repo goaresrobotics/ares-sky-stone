@@ -14,8 +14,8 @@ public class autoMethodsTest extends Auto {
 
         while(isStarted()) {
             aresBot.motorRight.setPower(0.4);
-            aresBot.motorRightBack.setPower(0.4);
-            aresBot.motorLeft.setPower(-0.4);
+            aresBot.motorRightBack.setPower(-0.4);
+            aresBot.motorLeft.setPower(0.4);
             aresBot.motorLeftBack.setPower(-0.4);
 
             sleep(2000);

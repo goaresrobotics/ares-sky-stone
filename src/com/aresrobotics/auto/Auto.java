@@ -15,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public abstract class Auto extends LinearOpMode {
     public AresSampleRobot aresBot = new AresSampleRobot(telemetry, this);
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime totalRuntime = new ElapsedTime();
+
 
     final double COUNTS_PER_MOTOR_REV = 560;
     final double DRIVE_GEAR_REDUCTION = -1;
@@ -23,6 +25,8 @@ public abstract class Auto extends LinearOpMode {
     final double DRIVE_SPEED = 0.6;
 
     double turnspeed;
+
+    double PCoefficient;
 
     double strafeSpeed = 0.4;
 
@@ -120,6 +124,13 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
+    public void timer(){
+
+        telemetry.addData("Time", totalRuntime.seconds());
+        telemetry.update();
+
+    }
+
     public void strafe(boolean isStrafeRight, int milliseconds){
 
         runtime.reset();
@@ -151,13 +162,17 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-    public void turn(double angle, double timeout) {
+    public void turn(double angle, double timeout, boolean isStrongTurn) {
 
         runtime.reset();
         runtime.startTime();
         Orientation orientation = aresBot.imu.getAngularOrientation();
 
-        double PCoefficient = 0.0105;
+        if (!isStrongTurn) {
+            PCoefficient = 0.0095;
+        } else {
+            PCoefficient = 0.02;
+        }
 
         while (runtime.seconds() < timeout && isStarted() && isStarted()) {
 
@@ -221,23 +236,23 @@ public abstract class Auto extends LinearOpMode {
 
         if(onBlue && isStarted()){
 
-            turn(-grabBlockTurnIn, 3);
+            turn(-grabBlockTurnIn, 3, false);
             intake(true, true);
             encoderDrive(0.4, 0.4, grabBlockMove, grabBlockMove, 2);
             encoderDrive(0.4, 0.4, -grabBlockMove, -grabBlockMove, 2);
             intake(false, true);
-            turn(-90, 3);
+            turn(-90, 3, false);
 
         }
 
         if (!onBlue && isStarted()) {
 
-            turn(grabBlockTurnIn, 3);
+            turn(grabBlockTurnIn, 3, false);
             intake(true, true);
             encoderDrive(0.4, 0.4, grabBlockMove, grabBlockMove, 2);
             encoderDrive(0.4, 0.4, -grabBlockMove, -grabBlockMove, 2);
             intake(false, true);
-            turn(90, 3);
+            turn(90, 3, false);
 
             }
         }

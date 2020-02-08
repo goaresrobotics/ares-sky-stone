@@ -18,18 +18,18 @@ public class insidePositionGrabTraySitCloseToCenterRed extends Auto {
     public void run(){
 
         encoderDrive(0.4, 0.4, firstMove, firstMove, 2);
-        turn(firstTurn, 3);
+        turn(firstTurn, 3, false);
         encoderDrive(0.4, 0.4, secondMove, secondMove, 7);
-        turn(secondTurn,3);
+        turn(secondTurn,3, false);
         encoderDrive(0.2, 0.2, thirdMove, thirdMove, 3);
         trayGrab();
         sleep(1000);
         encoderDrive(0.3, 0.11, 60,60, 20);
         encoderDrive(0.1,0.1,-0.3,-0.3,2);
         trayRelease();
-        turn(0, 3);
+        turn(0, 3, false);
         encoderDrive(0.3, 0.3, 17, 17, 3);
-        turn(90, 3);
+        turn(90, 3, false);
         encoderDrive(0.3, 0.3, 26, 26, 3);
 
 

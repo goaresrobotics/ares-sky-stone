@@ -29,7 +29,6 @@ public class AresSampleRobot {
     public DcMotor intakeRight;
     public DcMotor liftMotor;
 
-
     private volatile boolean stopRequested = false;
 
     public BNO055IMU imu;
@@ -37,7 +36,6 @@ public class AresSampleRobot {
     HardwareMap hwMap = null;
     Telemetry telemetry;
     private Auto auto;
-    private ElapsedTime period = new ElapsedTime();
 
     public AresSampleRobot(Telemetry telemetry, Auto auto) {
         this.telemetry = telemetry;
