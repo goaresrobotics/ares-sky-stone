@@ -57,6 +57,28 @@ public class lift {
 
     public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
+        if(dpad_down)
+        {
+
+            liftMotor.setTargetPosition(-2000);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor.setPower(1);
+
+            spinner.setPosition(0.04);
+            dropper.setPosition(0.58);
+
+            armRotate.setTargetPosition(0);
+            armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armRotate.setPower(0.1);
+            armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            liftMotor.setTargetPosition(0);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor.setPower(1);
+            liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        }
+
         liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
 
         if(liftHeightValue < 0){
