@@ -34,6 +34,9 @@ public class lift {
 
     double liftPosition;
 
+    boolean isBusy;
+    boolean isRunningToPosition;
+
     public void lift(){
 
     }
@@ -42,12 +45,14 @@ public class lift {
 
         liftMotor = hwMap.dcMotor.get("liftMotor");
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
         armRotate = hwMap.dcMotor.get("armRotate");
 
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
@@ -57,15 +62,19 @@ public class lift {
 
     public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
-        if(dpad_down)
+        liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
+
+        if(dpad_down && !isBusy)
         {
+
+            isRunningToPosition = true;
+
+            spinner.setPosition(0.04);
+            dropper.setPosition(0.2);
 
             liftMotor.setTargetPosition(-2000);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftMotor.setPower(1);
-
-            spinner.setPosition(0.04);
-            dropper.setPosition(0.58);
+            liftMotor.setPower(0.4);
 
             armRotate.setTargetPosition(0);
             armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -77,11 +86,14 @@ public class lift {
             liftMotor.setPower(1);
             liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+            dropper.setPosition(0.58);
+
+            isRunningToPosition = false;
+
         }
 
-        liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
 
-        if(liftHeightValue < 0){
+        /*if(liftHeightValue < 0){
 
             liftHeightValue = 0;
 
@@ -107,11 +119,13 @@ public class lift {
                 prevValue = false;
             }
         }
+        */
 
         if (right_trigger > 0) {
 
             liftPower = right_trigger;
             hasReachedIncrement = true;
+            isBusy = true;
 
         }
 
@@ -119,12 +133,14 @@ public class lift {
 
             liftPower = -left_trigger;
             hasReachedIncrement = true;
+            isBusy = true;
 
         }
 
-        if(left_trigger == 0 && right_trigger == 0){
+        if(left_trigger == 0 && right_trigger == 0 && isRunningToPosition){
 
             liftPower = 0;
+            isBusy = false;
 
         }
 
@@ -133,27 +149,6 @@ public class lift {
             liftPower = 0;
 
         }
-
-        /*
-        if(liftPosition > (liftHeightValue*oneIncrement) + startingHeight + 0.25 && !hasReachedIncrement) {
-
-            liftPower = -0.3; //go down
-
-        }
-
-        if(liftPosition < (liftHeightValue*oneIncrement) + startingHeight - 0.25 && !hasReachedIncrement) {
-
-            liftPower = 0.3; //go up
-
-        }
-
-        if(liftPosition <= (liftHeightValue*oneIncrement) + startingHeight + 0.25 && liftPosition >= (liftHeightValue*oneIncrement) + startingHeight - 0.25 && !hasReachedIncrement) {
-
-            liftPower = 0;
-            hasReachedIncrement = true;
-
-        }
-*/
 
         /*
 
@@ -196,30 +191,6 @@ public class lift {
 
         */
 
-            /*
-            if (right_bumper > 0) {
-
-
-                liftPower = right_bumper;
-
-            }
-
-            if (left_trigger > 0) {
-
-                liftPower = -left_trigger;
-
-            }
-            if(right_trigger==0 && left_trigger==0)
-            {
-
-                liftPower = 0;
-
-            }
-
-
-            liftMotor.setPower(liftPower);
-            */
-
             liftMotor.setPower(liftPower);
 
         if (x) {
@@ -244,19 +215,7 @@ public class lift {
 
 
         spinner.setPosition(spinnerPosition);
-/*
-        if(left_stick_y<0){
-            armRotate.setPower(left_stick_y);
-        }
-        if(left_stick_y>0){
-            armRotate.setPower(left_stick_y/4);
-        }
-        if(left_stick_y==0){
 
-            armRotate.setPower(0);
-
-        }
-        */
 
         if(left_stick_y>0)
         {
