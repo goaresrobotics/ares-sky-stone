@@ -217,72 +217,7 @@ public abstract class Auto extends LinearOpMode {
 
         }
 
-    /*
-        public void skystoneFinder()
-        {
-            int skyStonePosition = 0;
-            boolean foundSkystone = false;
-            encoderDrive(0.3, 8, 8, 2);
-            while (1 == 1)
-            {
 
-
-                if (aresBot.senseColor.red() < 50)
-                {
-
-                    foundSkystone = true;
-
-                } else
-                    {
-
-                    skyStonePosition = +1;
-
-                }
-
-                if (foundSkystone==true)
-                {
-
-                    //grab skystone
-
-                }
-                }
-            }
-
-
-        }
-
-        /*
-
-            }
-
-            public void intake(boolean in) {
-
-                int speedIn;
-                int speedOut;
-
-                speedIn = 1;
-                speedOut = -1;
-
-                runtime.reset();
-
-
-                while (runtime.seconds() < 2) {
-
-                    if (in) {
-
-                        aresBot.intake1.setPower(speedIn);
-                        aresBot.intake2.setPower(-speedIn);
-
-                    } else {
-
-                        aresBot.intake1.setPower(speedOut);
-                        aresBot.intake2.setPower(-speedOut);
-
-                    }
-                }
-            }
-
-        */
     //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
     public void trayGrab() {
 
