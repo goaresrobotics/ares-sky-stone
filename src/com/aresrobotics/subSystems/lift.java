@@ -32,10 +32,11 @@ public class lift {
     final double PULLEY_CIRCUMFERENCE = 4.24115; //INCHES
     final double COUNTS_PER_INCH = COUNTS_PER_SHAFT_REV/PULLEY_CIRCUMFERENCE;
 
-    double liftPosition;
-
     boolean isBusy;
     boolean isRunningToPosition;
+
+    boolean hasStarted = false;
+
 
     public void lift(){
 
@@ -45,14 +46,14 @@ public class lift {
 
         liftMotor = hwMap.dcMotor.get("liftMotor");
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
         armRotate = hwMap.dcMotor.get("armRotate");
 
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
     }
 
@@ -60,19 +61,29 @@ public class lift {
     int liftHeightValue = 0;
 
 
-    public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
+    public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
-        liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
+ /*       if(hasStarted = false) {
+
+            armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            hasStarted = true;
+
+        }
+*/
 
         if(dpad_down && !isBusy)
         {
 
+            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armRotate.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             isRunningToPosition = true;
 
             spinner.setPosition(0.04);
             dropper.setPosition(0.2);
 
-            liftMotor.setTargetPosition(-2000);
+            liftMotor.setTargetPosition(-1500);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftMotor.setPower(0.4);
 
@@ -90,41 +101,17 @@ public class lift {
 
             isRunningToPosition = false;
 
+            hasStarted = false;
+
+            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         }
 
-
-        /*if(liftHeightValue < 0){
-
-            liftHeightValue = 0;
-
-        } else {
-
-            if (dpad_up == true && prevValue == false) {
-                liftHeightValue = +1;
-                prevValue = true;
-                hasReachedIncrement = false;
-            }
-
-            if (dpad_up == false) {
-                prevValue = false;
-            }
-
-            if (dpad_down == true && prevValue == false) {
-                liftHeightValue -= 1;
-                prevValue = true;
-                hasReachedIncrement = false;
-            }
-
-            if (dpad_down == false) {
-                prevValue = false;
-            }
-        }
-        */
 
         if (right_trigger > 0) {
 
             liftPower = right_trigger;
-            hasReachedIncrement = true;
             isBusy = true;
 
         }
@@ -132,66 +119,18 @@ public class lift {
         if (left_trigger > 0) {
 
             liftPower = -left_trigger;
-            hasReachedIncrement = true;
             isBusy = true;
 
         }
 
-        if(left_trigger == 0 && right_trigger == 0 && isRunningToPosition){
+        if(left_trigger == 0 && right_trigger == 0){
 
             liftPower = 0;
             isBusy = false;
 
         }
-
-        if(liftMotor.getCurrentPosition() <= 0 && liftPower < 0){
-
-            liftPower = 0;
-
-        }
-
-        /*
-
-        if(liftHeightValue==0)
-        {
-
-        }
-        if(liftHeightValue==1)
-        {
-
-        }
-        if(liftHeightValue==2)
-        {
-
-        }
-        if(liftHeightValue==3)
-        {
-
-        }
-        if(liftHeightValue==4)
-        {
-
-        }
-        if(liftHeightValue==5)
-        {
-
-        }
-        if(liftHeightValue==6)
-        {
-
-        }
-        if(liftHeightValue==7)
-        {
-
-        }
-        if(liftHeightValue==8)
-        {
-
-        }
-
-        */
-
             liftMotor.setPower(liftPower);
+
 
         if (x) {
             dropperPosition = 0.31;
@@ -212,8 +151,6 @@ public class lift {
                 spinnerPosition = 0.04;
             }
         }
-
-
         spinner.setPosition(spinnerPosition);
 
 
@@ -223,6 +160,7 @@ public class lift {
             position+=1;
 
         }
+
         if(left_stick_y<0)
         {
 
