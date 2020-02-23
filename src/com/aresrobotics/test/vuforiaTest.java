@@ -26,7 +26,7 @@ public class vuforiaTest extends LinearOpMode {
 
     VuforiaLocalizer vuforia;
 
-    double path = 0;
+    double pathNumber = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -103,25 +103,25 @@ public class vuforiaTest extends LinearOpMode {
                 if(lastLocation.get(0, 3) > 140 && lastLocation.get(0, 3) < 260)
                 {
 
-                    path = 1;
+                    pathNumber = 1;
 
                 }
                 if(lastLocation.get(0, 3) > -100 && lastLocation.get(0, 3) < 40)
                 {
 
-                    path = 2;
+                    pathNumber = 2;
 
                 }
                 if(lastLocation.get(0, 3) > -280 && lastLocation.get(0, 3) < -155)
                 {
 
-                    path = 3;
+                    pathNumber = 3;
 
                 }
 
             }
 
-            telemetry.addData("Path # ", path);
+            telemetry.addData("Path # ", pathNumber);
 
             telemetry.update();
 

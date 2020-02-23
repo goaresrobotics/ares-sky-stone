@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class lift {
 
     Servo spinner;
@@ -16,6 +18,8 @@ public class lift {
     double stoppedMotorPower;
     double position = 0;
     double PC = 0.025;
+
+    double armPower;
 
     double dropperPosition = 0.58;
     double spinnerPosition = 0.09;
@@ -55,10 +59,11 @@ public class lift {
     int liftHeightValue = 0;
 
 
-    public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
+    public void runLift(boolean dpad_down, boolean dpad_up, double right_trigger, double left_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry) {
 
         liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
 
+        /*
         if(liftHeightValue < 0){
 
             liftHeightValue = 0;
@@ -84,18 +89,18 @@ public class lift {
             if (dpad_down == false) {
                 prevValue = false;
             }
-        }
+        } */
 
         if (right_trigger > 0) {
 
-            liftPower = right_trigger;
+            liftPower = -right_trigger;
             hasReachedIncrement = true;
 
         }
 
         if (left_trigger > 0) {
 
-            liftPower = -left_trigger;
+            liftPower = left_trigger;
             hasReachedIncrement = true;
 
         }
@@ -198,6 +203,16 @@ public class lift {
             liftMotor.setPower(liftPower);
             */
 
+            if(liftMotor.getCurrentPosition() > 0){
+                liftPower = -0.3;
+            }
+
+            if (liftMotor.getCurrentPosition() < -3450){
+
+                liftPower = 0;
+
+            }
+
             liftMotor.setPower(liftPower);
 
         if (x) {
@@ -248,7 +263,26 @@ public class lift {
             position-=1;
 
         }
-        armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+
+        armPower = (position-armRotate.getCurrentPosition())*PC;
+
+        if(position <= -250){
+
+            position = -249;
+
+        }
+
+        if(position >= 5){
+
+            position = 0;
+
+        }
+
+        armRotate.setPower(armPower);
+
+        telemetry.addData("Position", position);
+        telemetry.addData("Power", armPower);
+        telemetry.update();
 
     }
 }
