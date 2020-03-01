@@ -345,7 +345,7 @@ public abstract class Auto extends LinearOpMode {
 
                 if(pathNumber == 1){
 
-                    
+
 
                 }
 
