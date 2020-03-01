@@ -31,6 +31,7 @@ public class insidePositionGrabTrayRed extends Auto {
         encoderDrive(0.4, 0.4, -8, -8, 2);
         turn(90,3, false);
         encoderDrive(0.4,0.4, 34,34,5);
+        trayGrab();
 
     }
 

@@ -34,6 +34,7 @@ public class grabBlockGrabTrayBlue extends Auto{
         intake(true, false);
         encoderDrive(0.4, 0.4,-25, -25, 6);
         intake(false,false);
+        trayGrab();
 
     }
 }

@@ -37,6 +37,7 @@ public class insideTraysidePositionGrabTrayBlue extends Auto {
         trayRelease();
         strafe(true, 300);
         encoderDrive(0.4,0.4, 38,38,5);
+        trayGrab();
 
-        }
+    }
     }

@@ -23,6 +23,7 @@ public class grabBlockRedSitOutside extends Auto{
         intake(true, false);
         encoderDrive(0.3, 0.3, -15, -15, 4);
         intake(false, false);
+        trayGrab();
 
     }
 }

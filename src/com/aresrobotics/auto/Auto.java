@@ -9,8 +9,20 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Auto extends LinearOpMode {
     public AresSampleRobot aresBot = new AresSampleRobot(telemetry, this);
@@ -39,6 +51,9 @@ public abstract class Auto extends LinearOpMode {
     double grabBlockMove = 12;
 
     double intakePower;
+
+    double pathNumber;
+
 
     public void runOpMode() {
 
@@ -124,34 +139,34 @@ public abstract class Auto extends LinearOpMode {
         }
     }
 
-    public void timer(){
+    public void timer() {
 
         telemetry.addData("Time", totalRuntime.seconds());
         telemetry.update();
 
     }
 
-    public void strafe(boolean isStrafeRight, int milliseconds){
+    public void strafe(boolean isStrafeRight, int milliseconds) {
 
         runtime.reset();
 
-        while(runtime.milliseconds() < milliseconds && isStarted()){
+        while (runtime.milliseconds() < milliseconds && isStarted()) {
 
-            if(isStrafeRight){
+            if (isStrafeRight) {
 
-            aresBot.motorLeft.setPower(-strafeSpeed);
-            aresBot.motorRightBack.setPower(strafeSpeed);
-            aresBot.motorRight.setPower(strafeSpeed);
-            aresBot.motorLeftBack.setPower(-strafeSpeed);
+                aresBot.motorLeft.setPower(-strafeSpeed);
+                aresBot.motorRightBack.setPower(strafeSpeed);
+                aresBot.motorRight.setPower(strafeSpeed);
+                aresBot.motorLeftBack.setPower(-strafeSpeed);
 
-        } else {
+            } else {
 
-            aresBot.motorLeft.setPower(strafeSpeed);
-            aresBot.motorRightBack.setPower(-strafeSpeed);
-            aresBot.motorRight.setPower(-strafeSpeed);
-            aresBot.motorLeftBack.setPower(strafeSpeed);
+                aresBot.motorLeft.setPower(strafeSpeed);
+                aresBot.motorRightBack.setPower(-strafeSpeed);
+                aresBot.motorRight.setPower(-strafeSpeed);
+                aresBot.motorLeftBack.setPower(strafeSpeed);
 
-        }
+            }
 
         }
 
@@ -204,37 +219,37 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-        public void intake(boolean on, boolean in){
+    public void intake(boolean on, boolean in) {
 
-            if (in) {
+        if (in) {
 
-                intakePower = 1;
+            intakePower = 1;
 
-            } else {
+        } else {
 
-                intakePower = -1;
+            intakePower = -1;
 
-            }
+        }
 
-            if(on && isStarted()) {
+        if (on && isStarted()) {
 
             aresBot.intakeLeft.setPower(-intakePower);
             aresBot.intakeRight.setPower(intakePower);
 
-            }
+        }
 
-            if (!on && isStarted()){
+        if (!on && isStarted()) {
 
             aresBot.intakeLeft.setPower(0);
             aresBot.intakeRight.setPower(0);
 
-            }
-
         }
 
-        public void grabBlock(boolean onBlue){
+    }
 
-        if(onBlue && isStarted()){
+    public void grabBlock(boolean onBlue) {
+
+        if (onBlue && isStarted()) {
 
             turn(-grabBlockTurnIn, 3, false);
             intake(true, true);
@@ -254,75 +269,10 @@ public abstract class Auto extends LinearOpMode {
             intake(false, true);
             turn(90, 3, false);
 
-            }
         }
-
-    /*
-        public void skystoneFinder()
-        {
-            int skyStonePosition = 0;
-            boolean foundSkystone = false;
-            encoderDrive(0.3, 8, 8, 2);
-            while (1 == 1)
-            {
+    }
 
 
-                if (aresBot.senseColor.red() < 50)
-                {
-
-                    foundSkystone = true;
-
-                } else
-                    {
-
-                    skyStonePosition = +1;
-
-                }
-
-                if (foundSkystone==true)
-                {
-
-                    //grab skystone
-
-                }
-                }
-            }
-
-
-        }
-
-        /*
-
-            }
-
-            public void intake(boolean in) {
-
-                int speedIn;
-                int speedOut;
-
-                speedIn = 1;
-                speedOut = -1;
-
-                runtime.reset();
-
-
-                while (runtime.seconds() < 2) {
-
-                    if (in) {
-
-                        aresBot.intake1.setPower(speedIn);
-                        aresBot.intake2.setPower(-speedIn);
-
-                    } else {
-
-                        aresBot.intake1.setPower(speedOut);
-                        aresBot.intake2.setPower(-speedOut);
-
-                    }
-                }
-            }
-
-        */
     //If grabIsTrue is true it will grab, if grabIsTrue is false it will release
     public void trayGrab() {
 
@@ -341,37 +291,78 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
+    public void detectSkystone(boolean isOnBlue) {
+
+        aresBot.Skystone.activate();
+
+        while (opModeIsActive()) {
+            for (VuforiaTrackable trackable : aresBot.allTrackables) {
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    aresBot.lastLocation = robotLocationTransform;
+                }
+            }
+
+            if (isOnBlue) {
+
+                if (aresBot.lastLocation == null) {
+                    telemetry.addData("Location:", "Unknown");
+                } else {
+
+                    telemetry.addData("z", aresBot.lastLocation.get(0, 3));  //first value
+
+                    //block1 193
+                    //block2 -37.5
+                    //block3 -219
+                    telemetry.addData("z", aresBot.lastLocation.get(1, 3));  //second value
+                    //block1 175
+                    //block2 200
+                    //block3 196.5
+                    telemetry.addData("z", aresBot.lastLocation.get(2, 3));  //third value
+                    //block1 460
+                    //block2 479
+                    //block3 480
+                    if(aresBot.lastLocation.get(0, 3) > 140 && aresBot.lastLocation.get(0, 3) < 260)
+                    {
+
+                        pathNumber = 1;
+
+                    }
+                    if(aresBot.lastLocation.get(0, 3) > -100 && aresBot.lastLocation.get(0, 3) < 40)
+                    {
+
+                        pathNumber = 2;
+
+                    }
+                    if(aresBot.lastLocation.get(0, 3) > -280 && aresBot.lastLocation.get(0, 3) < -155)
+                    {
+
+                        pathNumber = 3;
+
+                    }
+
+                }
+
+                if(pathNumber == 1){
+
+                    
+
+                }
+
+                if(pathNumber == 2){
 
 
 
-/*
-    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
-    {
+                }
 
-        Double liftSpeed;
-        Double ratchetPos;
+                if(pathNumber == 3){
 
-        ratchetPos = 0.98;
-        liftSpeed = -0.3;
-        ratchet.setPosition(ratchetPos);
-        lift.setPower(liftSpeed);
-        lift2.setPower(liftSpeed);
-        sleep(3000);
-        liftSpeed = 0.0;
 
-        sleep(500);
 
-        aresBot.motorLeftBack.setPower(0.5);
-        aresBot.motorLeft.setPower(-0.5);
-        aresBot.motorRight.setPower(0.5);
-        aresBot.motorRightBack.setPower(-0.5);
+                }
 
-        sleep(500);
+            }
 
-        aresBot.motorLeftBack.setPower(0.0);
-        aresBot.motorLeft.setPower(0.0);
-        aresBot.motorRight.setPower(0.0);
-        aresBot.motorRightBack.setPower(0.0);
-
-    }*/
+        }
+    }
 }

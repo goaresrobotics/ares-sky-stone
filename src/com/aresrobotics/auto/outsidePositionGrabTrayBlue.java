@@ -23,6 +23,7 @@ public class outsidePositionGrabTrayBlue extends Auto {
         sleep(1000);
         encoderDrive(0.4,0.4, 33, 33, 7);
         turn(-90,3, false);
+        trayGrab();
 
     }
 }

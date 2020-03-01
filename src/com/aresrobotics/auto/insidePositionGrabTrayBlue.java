@@ -33,6 +33,7 @@ public class insidePositionGrabTrayBlue extends Auto {
         trayRelease();
         encoderDrive(0.4,0.4, 24,24,5);
         turn(-90,3, false);
+        trayGrab();
 
         //encoderDrive(0.3, 0.3, fourthMove, fourthMove,  7);
         //turn(thirdTurn,3);

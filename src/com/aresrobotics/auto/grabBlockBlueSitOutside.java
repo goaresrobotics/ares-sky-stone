@@ -22,6 +22,8 @@ public class grabBlockBlueSitOutside extends Auto{
         intake(true, false);
         encoderDrive(0.3, 0.3, -15, -15, 4);
         intake(false, false);
+        trayGrab();
+
         /*
         turn(-90, 5);
         encoderDrive(0.3, 0.3, 36, 36, 5);

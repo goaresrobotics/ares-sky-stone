@@ -33,6 +33,7 @@ public class insideTraysidePositionGrabTraySitCloseToCenterBlue extends Auto {
         strafe(false, 1100);
         turn(-90, 1, false);
         encoderDrive(0.4,0.4, 44,44,5);
+        trayGrab();
 
     }
 

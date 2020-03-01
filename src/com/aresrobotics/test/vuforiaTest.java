@@ -51,9 +51,6 @@ public class vuforiaTest extends LinearOpMode {
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(Skystone);
 
-        float mmPerInch = 25.4f;
-        float mmFTCFieldWidth = (12 * 12-2) * mmPerInch;
-
         OpenGLMatrix skyStoneLocation = OpenGLMatrix.translation(0, 0, 0).multiplied(Orientation.getRotationMatrix
                 (AxesReference.EXTRINSIC, AxesOrder.XZX, AngleUnit.DEGREES, 0, 0, 0));
         TargetElement.setLocation(skyStoneLocation);
