@@ -1,21 +1,23 @@
 package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class lift {
 
     Servo spinner;
     Servo dropper;
     DcMotor armRotate;
-    double whereArmStopped;
-    double armCurrentPosition;
-    boolean isArmMoving = false;
-    double stoppedMotorPower;
+
     double position = 0;
     double PC = 0.025;
+
+    boolean runRetract = false;
 
     double dropperPosition = 0.58;
     double spinnerPosition = 0.09;
@@ -23,19 +25,13 @@ public class lift {
     DcMotor liftMotor;
     double liftPower;
 
-    boolean hasReachedIncrement;
-
-    final double oneIncrement = 5; //Unmeasured //INCHES
-    final double startingHeight = 1; //Unmeasured  //How many INCHES off the ground the bottom increment should be
-
     final double COUNTS_PER_SHAFT_REV = 280;
     final double PULLEY_CIRCUMFERENCE = 4.24115; //INCHES
     final double COUNTS_PER_INCH = COUNTS_PER_SHAFT_REV/PULLEY_CIRCUMFERENCE;
 
     boolean isBusy;
-    boolean isRunningToPosition;
 
-    boolean hasStarted = false;
+
 
 
     public void lift(){
@@ -57,11 +53,9 @@ public class lift {
 
     }
 
-    boolean prevValue = false;
-    int liftHeightValue = 0;
 
 
-    public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
+    public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry) {
 
  /*       if(hasStarted = false) {
 
@@ -73,101 +67,131 @@ public class lift {
         }
 */
 
-        if(dpad_down && !isBusy)
+        if(dpad_down){
+
+            runRetract = true;
+
+        }
+
+        if(left_trigger != 0 || right_trigger != 0 || x || y || left_bumper || right_bumper || left_stick_y != 0){
+
+            runRetract = false;
+
+
+        }
+
+        if(runRetract)
         {
+            telemetry.addData("Retracting", runRetract);
 
-            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armRotate.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            isRunningToPosition = true;
+            armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
 
-            spinner.setPosition(0.04);
-            dropper.setPosition(0.2);
+            spinnerPosition = 0.04;
+            dropperPosition = 0.2;
 
-            liftMotor.setTargetPosition(-1500);
-            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftMotor.setPower(0.4);
-
-            armRotate.setTargetPosition(0);
-            armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            armRotate.setPower(0.1);
-            armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            liftMotor.setTargetPosition(0);
-            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftMotor.setPower(1);
-            liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            dropper.setPosition(0.58);
-
-            isRunningToPosition = false;
-
-            hasStarted = false;
-
-            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        }
+            if(armRotate.getCurrentPosition() != 0) {
 
 
-        if (right_trigger > 0) {
+                armRotate.setTargetPosition(0);
+                armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            liftPower = right_trigger;
-            isBusy = true;
+            } else {
 
-        }
+            if(liftMotor.getCurrentPosition() != 0) {
 
-        if (left_trigger > 0) {
+                liftMotor.setTargetPosition(0);
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            liftPower = -left_trigger;
-            isBusy = true;
+            } else {
 
-        }
+                armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                dropperPosition = 0.58;
 
-        if(left_trigger == 0 && right_trigger == 0){
+                liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            liftPower = 0;
-            isBusy = false;
-
-        }
-            liftMotor.setPower(liftPower);
-
-
-        if (x) {
-            dropperPosition = 0.31;
-        }
-
-        if (y) {
-            dropperPosition = 0.58;
-        }
-
-        dropper.setPosition(dropperPosition);
-
-
-        if (left_bumper) {
-            spinnerPosition = 1;
-        } else {
-
-            if (right_bumper) {
-                spinnerPosition = 0.04;
+                runRetract = false;
             }
         }
-        spinner.setPosition(spinnerPosition);
+
+        } else {
+
+            if(liftMotor.getMode() == DcMotor.RunMode.RUN_TO_POSITION){
+
+                liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            }
+
+            if(armRotate.getMode() == DcMotor.RunMode.RUN_TO_POSITION){
+
+                armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            }
+
+            if (right_trigger > 0) {
+
+                liftPower = right_trigger;
+                isBusy = true;
+
+            }
+
+            if (left_trigger > 0) {
+
+                liftPower = -left_trigger;
+                isBusy = true;
+
+            }
+
+            if (left_trigger == 0 && right_trigger == 0) {
+
+                liftPower = 0;
+                isBusy = false;
+
+            }
 
 
-        if(left_stick_y>0)
-        {
+            if (x) {
+                dropperPosition = 0.31;
+            }
 
-            position+=1;
+            if (y) {
+                dropperPosition = 0.58;
+            }
+
+
+
+            if (left_bumper) {
+                spinnerPosition = 1;
+            } else {
+
+                if (right_bumper) {
+                    spinnerPosition = 0.04;
+                }
+            }
+
+
+            if (left_stick_y > 0) {
+
+                position += 1;
+
+            }
+
+            if (left_stick_y < 0) {
+
+                position -= 1;
+
+            }
+
+            liftMotor.setPower(liftPower);
+            armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
 
         }
 
-        if(left_stick_y<0)
-        {
+        //dropper.setPosition(dropperPosition);
+        //spinner.setPosition(spinnerPosition);
 
-            position-=1;
-
-        }
-        armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+        telemetry.update();
 
     }
 }
