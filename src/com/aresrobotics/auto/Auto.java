@@ -314,14 +314,7 @@ public abstract class Auto extends LinearOpMode {
                     //block1 193
                     //block2 -37.5
                     //block3 -219
-                    telemetry.addData("z", aresBot.lastLocation.get(1, 3));  //second value
-                    //block1 175
-                    //block2 200
-                    //block3 196.5
-                    telemetry.addData("z", aresBot.lastLocation.get(2, 3));  //third value
-                    //block1 460
-                    //block2 479
-                    //block3 480
+
                     if(aresBot.lastLocation.get(0, 3) > 140 && aresBot.lastLocation.get(0, 3) < 260)
                     {
 
