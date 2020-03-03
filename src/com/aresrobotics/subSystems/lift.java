@@ -1,9 +1,11 @@
 package com.aresrobotics.subSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,9 +14,9 @@ public class lift {
 
     Servo spinner;
     Servo dropper;
-    DcMotor armRotate;
+    //DcMotor armRotate;
 
-    double position = 0;
+    int position = 0;
     double PC = 0.025;
 
     boolean runRetract = false;
@@ -22,16 +24,19 @@ public class lift {
     double dropperPosition = 0.58;
     double spinnerPosition = 0.09;
 
-    DcMotor liftMotor;
+    DcMotorEx liftMotor;
     double liftPower;
 
-    final double COUNTS_PER_SHAFT_REV = 280;
-    final double PULLEY_CIRCUMFERENCE = 4.24115; //INCHES
-    final double COUNTS_PER_INCH = COUNTS_PER_SHAFT_REV/PULLEY_CIRCUMFERENCE;
+    DcMotorEx armRotate;
 
     boolean isBusy;
 
+    boolean isArmDown = false;
+    boolean isLiftDown= false;
+    boolean isLiftRetracting = false;
+    int liftStage = 0;
 
+    boolean hasStarted = false;
 
 
     public void lift(){
@@ -40,16 +45,19 @@ public class lift {
 
     public void initLift(HardwareMap hwMap) {
 
-        liftMotor = hwMap.dcMotor.get("liftMotor");
+        liftMotor = hwMap.get(DcMotorEx.class, "liftMotor");
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setTargetPositionTolerance(20);
 
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
-        armRotate = hwMap.dcMotor.get("armRotate");
+        //armRotate = hwMap.dcMotor.get("armRotate");
 
+        //armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        armRotate = hwMap.get(DcMotorEx.class, "armRotate");
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
+        armRotate.setTargetPositionTolerance(35);
 
     }
 
@@ -57,15 +65,16 @@ public class lift {
 
     public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry) {
 
- /*       if(hasStarted = false) {
+      if(hasStarted = false) {
 
-            armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             hasStarted = true;
 
         }
-*/
+
+
 
         if(dpad_down){
 
@@ -82,40 +91,57 @@ public class lift {
 
         if(runRetract)
         {
-            telemetry.addData("Retracting", runRetract);
-
-            armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
 
             spinnerPosition = 0.04;
             dropperPosition = 0.2;
 
-            if(armRotate.getCurrentPosition() != 0) {
-
+            if(armRotate.getCurrentPosition() != 0 && !isArmDown) {
 
                 armRotate.setTargetPosition(0);
+                armRotate.setPower(1);
                 armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                position = 0;
 
-            } else {
-
-            if(liftMotor.getCurrentPosition() != 0) {
-
-                liftMotor.setTargetPosition(0);
-                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            } else {
-
-                armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                dropperPosition = 0.58;
-
-                liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-                runRetract = false;
             }
-        }
+
+            if(armRotate.getCurrentPosition() >= -10){
+
+                isArmDown = true;
+                position = 0;
+
+            }
+
+            if(liftMotor.getCurrentPosition() != 0 && isArmDown && !isLiftDown) {
+
+                isLiftRetracting = true;
+                liftMotor.setTargetPosition(0);
+                liftMotor.setPower(1);
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftStage = 1;
+
+            }
+
+            if (liftMotor.getCurrentPosition() >= -10) {
+
+                isLiftDown = true;
+                liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                liftStage = 2;
+
+            }
+
+            if(isArmDown && isLiftDown) {
+
+                dropperPosition = 0.58;
+                runRetract = false;
+
+            }
 
         } else {
+
+            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            isLiftDown = false;
+            isArmDown = false;
 
             if (right_trigger > 0) {
 
@@ -172,13 +198,28 @@ public class lift {
             }
 
             liftMotor.setPower(liftPower);
-            armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+            liftStage = 3;
+
+            //armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+            armRotate.setPower(0.8);
+            armRotate.setTargetPosition(position*3);
+
+            armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         }
 
         //dropper.setPosition(dropperPosition);
         //spinner.setPosition(spinnerPosition);
 
+        telemetry.addData("Is Arm Down", isArmDown);
+        telemetry.addData("Arm Position", armRotate.getCurrentPosition());
+        telemetry.addData("Retracting if true", runRetract);
+        telemetry.addData("Lift Position", liftMotor.getCurrentPosition());
+        telemetry.addData("Is Lift Down", isLiftDown);
+        telemetry.addData("Is Lift Retracting", isLiftRetracting);
+        telemetry.addData("Lift Stage", liftStage);
+        telemetry.addData("Lift Set Position", liftMotor.getTargetPosition());
+        telemetry.addData("Lift Runmode", liftMotor.getMode());
         telemetry.update();
 
     }
