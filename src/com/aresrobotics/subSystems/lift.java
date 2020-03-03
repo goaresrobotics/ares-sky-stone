@@ -117,18 +117,6 @@ public class lift {
 
         } else {
 
-            if(liftMotor.getMode() == DcMotor.RunMode.RUN_TO_POSITION){
-
-                liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            }
-
-            if(armRotate.getMode() == DcMotor.RunMode.RUN_TO_POSITION){
-
-                armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            }
-
             if (right_trigger > 0) {
 
                 liftPower = right_trigger;
