@@ -272,7 +272,7 @@ public class lift {
 
         }
 
-        if(position >= 5){
+        if(position >= 1){
 
             position = 0;
 
