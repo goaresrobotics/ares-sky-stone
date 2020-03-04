@@ -14,6 +14,11 @@ public class lift {
 
     Servo spinner;
     Servo dropper;
+
+    Servo capFeeder;
+
+    double capPosition = 0.5;
+
     //DcMotor armRotate;
 
     int position = 0;
@@ -51,6 +56,9 @@ public class lift {
 
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
+
+        capFeeder = hwMap.servo.get("capFeeder");
+
         //armRotate = hwMap.dcMotor.get("armRotate");
 
         //armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -63,7 +71,7 @@ public class lift {
 
 
 
-    public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry) {
+    public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry, boolean dpadLeft, boolean dpadUp) {
 
       if(hasStarted = false) {
 
@@ -207,6 +215,20 @@ public class lift {
             armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         }
+
+        if (dpadLeft){
+
+            capPosition = 0.2;
+
+        }
+
+        if (dpadUp){
+
+            capPosition = 0.5;
+
+        }
+
+        capFeeder.setPosition(capPosition);
 
         //dropper.setPosition(dropperPosition);
         //spinner.setPosition(spinnerPosition);
