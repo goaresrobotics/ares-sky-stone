@@ -291,7 +291,7 @@ public abstract class Auto extends LinearOpMode {
 
     }
 
-    public void detectSkystone(boolean isOnBlue) {
+    public void detectSkystone(boolean isOnBlue, boolean isOnRed) {
 
         aresBot.Skystone.activate();
 
@@ -338,19 +338,134 @@ public abstract class Auto extends LinearOpMode {
 
                 if(pathNumber == 1){
 
+                    encoderDrive(1, 1, );
+                    turn();
+                    encoderDrive();
+
+                    turn();
+                    encoderDrive();
+                    intake(true, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
 
 
                 }
 
                 if(pathNumber == 2){
 
+                intake(true, true);
+                encoderDrive(0.4, 0.4, 8, 8, 3);
+                intake(false, true);
+                encoderDrive(0.4, 0.4, -8, -8, 3);
+                turn(90, 3, true);
+                encoderDrive(1, 1, -8, -8, 3);
+                encoderDrive(0.4, 0.4, 54, 54, 3);
+                intake(true, false);
+                encoderDrive(0.4, 0.4, -54, -54, 3);
+                turn(0, 3, true);
+                }
 
+                if(pathNumber == 3){
+
+                    encoderDrive();
+                    turn();
+                    intake(true, true);
+                    encoderDrive();
+                    intake(false, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+                    intake(true, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+
+                }
+
+            }
+            if (isOnRed) {
+
+                if (aresBot.lastLocation == null) {
+                    telemetry.addData("Location:", "Unknown");
+                } else {
+
+                    telemetry.addData("z", aresBot.lastLocation.get(0, 3));  //first value
+
+                    //block1 193
+                    //block2 -37.5
+                    //block3 -219
+
+                    if(aresBot.lastLocation.get(0, 3) > 140 && aresBot.lastLocation.get(0, 3) < 260)
+                    {
+
+                        pathNumber = 1;
+
+                    }
+                    if(aresBot.lastLocation.get(0, 3) > -100 && aresBot.lastLocation.get(0, 3) < 40)
+                    {
+
+                        pathNumber = 2;
+
+                    }
+                    if(aresBot.lastLocation.get(0, 3) > -280 && aresBot.lastLocation.get(0, 3) < -155)
+                    {
+
+                        pathNumber = 3;
+
+                    }
+
+                }
+
+                if(pathNumber == 1){
+
+                    encoderDrive();
+                    turn();
+                    intake(true, true);
+                    encoderDrive();
+                    intake(false, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+                    intake(true, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+
+
+                }
+
+                if(pathNumber == 2){
+
+                    encoderDrive();
+                    turn();
+                    intake(true, true);
+                    encoderDrive();
+                    intake(false, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+                    intake(true, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
 
                 }
 
                 if(pathNumber == 3){
 
-
+                    encoderDrive();
+                    turn();
+                    intake(true, true);
+                    encoderDrive();
+                    intake(false, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
+                    intake(true, false);
+                    encoderDrive();
+                    turn();
+                    encoderDrive();
 
                 }
 
