@@ -33,7 +33,7 @@ public class mecanum extends OpMode {
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-
+    private double angleradians = 0;
     private double newX = 0;
     private double newY = 0;
     private double angle = 0;
@@ -55,6 +55,7 @@ public class mecanum extends OpMode {
 
         Orientation orientation  = gyro.getAngularOrientation();
         angle = orientation.firstAngle;
+        angleradians = angle*(Math.PI/180);
         x = gamepad1.left_stick_x;
         y = gamepad1.left_stick_y;
         power = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));  //check if zero and fix it later
@@ -65,23 +66,23 @@ public class mecanum extends OpMode {
 
         if((newRobotAngle<=90 && newRobotAngle>0)||(newRobotAngle>360 && newRobotAngle<=450)||(newRobotAngle<=-270&&newRobotAngle>-360))
         {
-            newX = -Math.abs(power*(Math.cos(angle-Math.acos(x/power))));
-            newY = Math.abs(power*(Math.sin(angle-Math.acos(x/power))));
+            newX = -Math.abs(power*(Math.cos(angleradians-Math.acos(x/power))));
+            newY = Math.abs(power*(Math.sin(angleradians-Math.acos(x/power))));
         }
         if((newRobotAngle<=180 && newRobotAngle>90)||(newRobotAngle>450 && newRobotAngle<=540)||(newRobotAngle<=-180&&newRobotAngle>-270))
         {
-            newX = -Math.abs(power*(Math.cos(angle-Math.acos(x/power))));
-            newY = -Math.abs(power*(Math.sin(angle-Math.acos(x/power))));
+            newX = -Math.abs(power*(Math.cos(angleradians-Math.acos(x/power))));
+            newY = -Math.abs(power*(Math.sin(angleradians-Math.acos(x/power))));
         }
         if((newRobotAngle<=-90 && newRobotAngle>-180)||(newRobotAngle>180 && newRobotAngle<=270)||(newRobotAngle<=-450&&newRobotAngle>-540))
         {
-            newX = Math.abs(power*(Math.cos(angle-Math.acos(x/power))));
-            newY = -Math.abs(power*(Math.sin(angle-Math.acos(x/power))));
+            newX = Math.abs(power*(Math.cos(angleradians-Math.acos(x/power))));
+            newY = -Math.abs(power*(Math.sin(angleradians-Math.acos(x/power))));
         }
         if((newRobotAngle<=0 && newRobotAngle>-90)||(newRobotAngle>270 && newRobotAngle<=360)||(newRobotAngle<=-360&&newRobotAngle>-450))
         {
-            newX = Math.abs(power*(Math.cos(angle-Math.acos(x/power))));
-            newY = Math.abs(power*(Math.sin(angle-Math.acos(x/power))));
+            newX = Math.abs(power*(Math.cos(angleradians-Math.acos(x/power))));
+            newY = Math.abs(power*(Math.sin(angleradians-Math.acos(x/power))));
         }
 
         double h = Math.hypot(newX, -newY);
