@@ -1,5 +1,8 @@
 package com.aresrobotics.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous(name = "skystoneDetectionBlue")
 public class skystoneDetectionBlue extends Auto {
 
     public void run(){
