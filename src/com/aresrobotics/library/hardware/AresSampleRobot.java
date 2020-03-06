@@ -91,11 +91,6 @@ public class AresSampleRobot {
         motorLeftBack.setPower(0);
         motorRightBack.setPower(0);
 
-        motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorLeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters vuforiaParameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 

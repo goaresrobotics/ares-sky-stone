@@ -13,19 +13,22 @@ public class autoMethodsTest extends Auto {
     public void run(){
 
         while(isStarted()) {
-            aresBot.motorRight.setPower(0.4);
-            aresBot.motorRightBack.setPower(-0.4);
-            aresBot.motorLeft.setPower(0.4);
-            aresBot.motorLeftBack.setPower(-0.4);
 
-            sleep(2000);
+            turn(0, 3, false);
+            encoderDrive(0.2, 0.2, 15, 15, 5);
+            turn(90, 3, false);
+            encoderDrive(0.2, 0.2, 15, 15, 5);
+            turn(180, 3, false);
+            encoderDrive(0.2, 0.2, 15, 15, 5);
+            turn(270, 3, false);
+            encoderDrive(0.2, 0.2, 15, 15, 5);
 
-            aresBot.motorRight.setPower(0);
-            aresBot.motorRightBack.setPower(0);
-            aresBot.motorLeft.setPower(0);
-            aresBot.motorLeftBack.setPower(0);
+            telemetry.addData("Motor Back Right Direction", aresBot.motorRightBack.getDirection());
+            telemetry.addData("Motor Right Direction", aresBot.motorRight.getDirection());
+            telemetry.addData("Motor Back Left Direction", aresBot.motorLeftBack.getDirection());
+            telemetry.addData("Motor Left Direction", aresBot.motorLeft.getDirection());
+            telemetry.update();
 
-            sleep(2000);
         }
         //grabBlock(true);
 
