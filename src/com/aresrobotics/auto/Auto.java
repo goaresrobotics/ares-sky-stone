@@ -338,48 +338,48 @@ public abstract class Auto extends LinearOpMode {
 
                 if(pathNumber == 1){
 
-                    encoderDrive(1, 1, );
-                    turn();
-                    encoderDrive();
-
-                    turn();
-                    encoderDrive();
+                    intake(true, true);
+                    turn(25, 2, false);
+                    encoderDrive(0.4, 0.4, 12, 12, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -12, -12, 3);
+                    turn(90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
                     intake(true, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
 
 
                 }
 
                 if(pathNumber == 2){
 
-                intake(true, true);
-                encoderDrive(0.4, 0.4, 8, 8, 3);
-                intake(false, true);
-                encoderDrive(0.4, 0.4, -8, -8, 3);
-                turn(90, 3, true);
-                encoderDrive(1, 1, -8, -8, 3);
-                encoderDrive(0.4, 0.4, 54, 54, 3);
-                intake(true, false);
-                encoderDrive(0.4, 0.4, -54, -54, 3);
-                turn(0, 3, true);
+                    intake(true, true);
+                    encoderDrive(0.4, 0.4, 8, 8, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -8, -8, 3);
+                    turn(90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
+                    intake(true, false);
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
                 }
 
                 if(pathNumber == 3){
 
-                    encoderDrive();
-                    turn();
                     intake(true, true);
-                    encoderDrive();
-                    intake(false, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    turn(-25, 2, false);
+                    encoderDrive(0.4, 0.4, 12, 12, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -12, -12, 3);
+                    turn(90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
                     intake(true, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
 
                 }
 
@@ -419,53 +419,48 @@ public abstract class Auto extends LinearOpMode {
 
                 if(pathNumber == 1){
 
-                    encoderDrive();
-                    turn();
                     intake(true, true);
-                    encoderDrive();
-                    intake(false, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    turn(-25, 2, false);
+                    encoderDrive(0.4, 0.4, 12, 12, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -12, -12, 3);
+                    turn(-90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
                     intake(true, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
 
 
                 }
 
                 if(pathNumber == 2){
 
-                    encoderDrive();
-                    turn();
                     intake(true, true);
-                    encoderDrive();
-                    intake(false, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    encoderDrive(0.4, 0.4, 8, 8, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -8, -8, 3);
+                    turn(-90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
                     intake(true, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
-
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
                 }
 
                 if(pathNumber == 3){
 
-                    encoderDrive();
-                    turn();
                     intake(true, true);
-                    encoderDrive();
-                    intake(false, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    turn(25, 2, false);
+                    encoderDrive(0.4, 0.4, 12, 12, 3);
+                    intake(false, true);
+                    encoderDrive(0.4, 0.4, -12, -12, 3);
+                    turn(-90, 3, true);
+                    encoderDrive(1, 1, -8, -8, 3);
+                    encoderDrive(0.4, 0.4, 54, 54, 3);
                     intake(true, false);
-                    encoderDrive();
-                    turn();
-                    encoderDrive();
+                    encoderDrive(0.4, 0.4, -54, -54, 3);
+                    turn(0, 3, true);
 
                 }
 
