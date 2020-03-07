@@ -188,7 +188,7 @@ public abstract class Auto extends LinearOpMode {
         Orientation orientation = aresBot.imu.getAngularOrientation();
 
         if (!isStrongTurn) {
-            PCoefficient = 0.0095;
+            PCoefficient = 0.01;
         } else {
             PCoefficient = 0.02;
         }
@@ -359,11 +359,24 @@ public abstract class Auto extends LinearOpMode {
                     encoderDrive(0.5, 0.5, -13, -13, 4);
                     intake(false, true);
                     sleep(500);
-                    turn(95, 2, false);
-                    encoderDrive(0.8, 0.8, 50, 50, 3);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 60, 60, 12);
                     sleep(500);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -14, -14, 3);
+                    encoderDrive(0.3, 0.3, -15, -15 ,3);
+                    encoderDrive(0.6, 0.5, -66, -66, 12);
+                    sleep(500);
+                    intake(false, false);
+                    turn(0, 2, false);
+                    intake(true, true);
+                    encoderDrive(0.25, 0.25, 16, 16, 4);
+                    sleep(500);
+                    encoderDrive(0.5, 0.5, -16, -16, 4);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 70, 70, 8);
+                    sleep(500);
+                    intake(true, false);
+                    encoderDrive(0.3, 0.6, -16, -16, 3);
                     intake(false, false);
                     break;
 
@@ -374,14 +387,27 @@ public abstract class Auto extends LinearOpMode {
                     intake(true, true);
                     encoderDrive(0.25, 0.25, 24, 24, 4);
                     sleep(500);
-                    encoderDrive(0.5, 0.5, -14, -14, 4);
+                    encoderDrive(0.5, 0.5, -13, -13, 4);
                     intake(false, true);
                     sleep(500);
-                    turn(95, 2, false);
-                    encoderDrive(0.8, 0.8, 50, 50, 7);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 60, 60, 12);
                     sleep(500);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -14, -14, 3);
+                    encoderDrive(0.3, 0.3, -15, -15 ,3);
+                    encoderDrive(0.6, 0.5, -74, -74, 12);
+                    sleep(500);
+                    intake(false, false);
+                    turn(0, 2, false);
+                    intake(true, true);
+                    encoderDrive(0.25, 0.25, 16, 16, 4);
+                    sleep(500);
+                    encoderDrive(0.5, 0.5, -16, -16, 4);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 70, 70, 8);
+                    sleep(500);
+                    intake(true, false);
+                    encoderDrive(0.3, 0.6, -16, -16, 3);
                     intake(false, false);
                     break;
 
@@ -393,14 +419,27 @@ public abstract class Auto extends LinearOpMode {
                     turn(-25, 1, false);
                     encoderDrive(0.25, 0.25, 24, 24, 4);
                     sleep(500);
-                    encoderDrive(0.6, 0.6, -13, -13, 4);
+                    encoderDrive(0.5, 0.5, -13, -13, 4);
                     intake(false, true);
                     sleep(500);
-                    turn(95, 2, false);
-                    encoderDrive(0.8, 0.8, 50, 50, 3);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 60, 60, 12);
                     sleep(500);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -14, -14, 3);
+                    encoderDrive(0.3, 0.3, -15, -15 ,3);
+                    encoderDrive(0.6, 0.5, -74, -74, 12);
+                    sleep(500);
+                    intake(false, false);
+                    turn(-25, 2, false);
+                    intake(true, true);
+                    encoderDrive(0.25, 0.25, 16, 16, 4);
+                    sleep(500);
+                    encoderDrive(0.5, 0.5, -16, -16, 4);
+                    turn(90, 2, false);
+                    encoderDrive(0.6, 0.6, 70, 70, 8);
+                    sleep(500);
+                    intake(true, false);
+                    encoderDrive(0.3, 0.6, -16, -16, 3);
                     intake(false, false);
                     break;
 
