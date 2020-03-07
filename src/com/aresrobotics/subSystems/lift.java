@@ -220,18 +220,18 @@ public class lift {
         }
 
         if (y) {
-            dropperPosition = 0.58;
+            dropperPosition = 0.9;
         }
 
         dropper.setPosition(dropperPosition);
 
 
         if (left_bumper) {
-            spinnerPosition = 1;
+            spinnerPosition = 0.9;
         } else {
 
             if (right_bumper) {
-                spinnerPosition = 0.04;
+                spinnerPosition = 0.02;
             }
         }
 

@@ -123,6 +123,10 @@ public abstract class Auto extends LinearOpMode {
                 telemetry.addData("Path2", "Running at %7d :%7d",
                         aresBot.motorLeft.getCurrentPosition(),
                         aresBot.motorRight.getCurrentPosition());
+                telemetry.addData("Motor Left Mode", aresBot.motorLeft.getMode());
+                telemetry.addData("Motor Left Back Mode", aresBot.motorLeftBack.getMode());
+                telemetry.addData("Motor Right Mode", aresBot.motorRight.getMode());
+                telemetry.addData("Motor Right Back Mode", aresBot.motorRightBack.getMode());
                 telemetry.update();
             }
 
@@ -184,7 +188,7 @@ public abstract class Auto extends LinearOpMode {
         Orientation orientation = aresBot.imu.getAngularOrientation();
 
         if (!isStrongTurn) {
-            PCoefficient = 0.0095;
+            PCoefficient = 0.095;
         } else {
             PCoefficient = 0.02;
         }
@@ -225,7 +229,7 @@ public abstract class Auto extends LinearOpMode {
 
             intakePower = 1;
 
-        } else {
+        } if(!in) {
 
             intakePower = -1;
 
@@ -364,12 +368,11 @@ public abstract class Auto extends LinearOpMode {
 
                     intake(true, true);
                     encoderDrive(0.25, 0.25, 24, 24, 4);
-                    intake(false, true);
-                    encoderDrive(0.6, 0.6, -13, -13, 4);
-                    turn(90, 3, false);
-                    encoderDrive(0.8, 0.8, 40, 40, 3);
+                    encoderDrive(0.3, 0.3, -14, -14, 4);
+                    turn(90, 4, false);
+                    encoderDrive(0.3, 0.3, 60, 60, 7);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -16, -16, 3);
+                    encoderDrive(0.3, 0.3, -24, -24, 3);
                     intake(false, false);
                     break;
 
