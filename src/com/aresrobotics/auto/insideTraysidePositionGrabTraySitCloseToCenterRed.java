@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class insideTraysidePositionGrabTraySitCloseToCenterRed extends Auto {
 
     public static int firstMove = 8;
-    public static int secondMove = 36;
-    public static int thirdMove = -16;
+    public static int secondMove = 42;
+    public static int thirdMove = -15;
     public static int fourthMove = 23;
     public static int fifthMove = 50;
 
@@ -18,22 +18,23 @@ public class insideTraysidePositionGrabTraySitCloseToCenterRed extends Auto {
 
     public void run(){
 
+
         encoderDrive(0.4, 0.4, firstMove, firstMove, 2);
-        turn(firstTurn, 3, false);
-        encoderDrive(0.4, 0.4, secondMove, secondMove, 7);
-        turn(secondTurn, 3, false);
+        turn(firstTurn, 1.5, false);
+        encoderDrive(0.4, 0.4, secondMove, secondMove, 5);
+        turn(secondTurn, 1.5, false);
         encoderDrive(0.2, 0.2, thirdMove, thirdMove, 3);
         trayGrab();
         sleep(1000);
-        encoderDrive(0.35, 0.1, 55,55, 20);
-        turn(90, 3, false);
+        encoderDrive(0.5, 0.08, 70,30, 6);
+        turn(90, 1.5, false);
+        encoderDrive(0.4, 0.4, -14, -14, 3);
+        turn(90,1.5, false);
         trayRelease();
-        encoderDrive(0.4, 0.4, -15, -15, 3);
-        turn(90,1, false);
-        strafe(true, 1100);
-        turn(90, 1, false);
-        encoderDrive(0.4,0.4, 38,38,5);
+        strafe(true, 1300);
+        encoderDrive(0.4,0.4, 36,36,5);
         trayGrab();
+
 
     }
 }
