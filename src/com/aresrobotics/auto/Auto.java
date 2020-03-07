@@ -353,14 +353,17 @@ public abstract class Auto extends LinearOpMode {
                 if(pathNumber == 1){
 
                     intake(true, true);
-                    turn(25, 2, false);
+                    turn(25, 1, false);
                     encoderDrive(0.25, 0.25, 24, 24, 4);
+                    sleep(500);
+                    encoderDrive(0.5, 0.5, -13, -13, 4);
                     intake(false, true);
-                    encoderDrive(0.6, 0.6, -13, -13, 4);
-                    turn(90, 3, false);
-                    encoderDrive(0.8, 0.8, 40, 40, 3);
+                    sleep(500);
+                    turn(95, 2, false);
+                    encoderDrive(0.8, 0.8, 50, 50, 3);
+                    sleep(500);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -16, -16, 3);
+                    encoderDrive(0.4, 0.4, -14, -14, 3);
                     intake(false, false);
                     break;
 
@@ -370,11 +373,15 @@ public abstract class Auto extends LinearOpMode {
 
                     intake(true, true);
                     encoderDrive(0.25, 0.25, 24, 24, 4);
-                    encoderDrive(0.3, 0.3, -14, -14, 4);
-                    turn(90, 4, false);
-                    encoderDrive(0.3, 0.3, 60, 60, 7);
+                    sleep(500);
+                    encoderDrive(0.5, 0.5, -14, -14, 4);
+                    intake(false, true);
+                    sleep(500);
+                    turn(95, 2, false);
+                    encoderDrive(0.8, 0.8, 50, 50, 7);
+                    sleep(500);
                     intake(true, false);
-                    encoderDrive(0.3, 0.3, -24, -24, 3);
+                    encoderDrive(0.4, 0.4, -14, -14, 3);
                     intake(false, false);
                     break;
 
@@ -383,15 +390,18 @@ public abstract class Auto extends LinearOpMode {
                 if(pathNumber == 3){
 
                     intake(true, true);
-                    turn(-25, 2, false);
-                    encoderDrive(0.4, 0.4, 12, 12, 3);
+                    turn(-25, 1, false);
+                    encoderDrive(0.25, 0.25, 24, 24, 4);
+                    sleep(500);
+                    encoderDrive(0.6, 0.6, -13, -13, 4);
                     intake(false, true);
-                    encoderDrive(0.4, 0.4, -12, -12, 3);
-                    turn(90, 3, true);
-                    encoderDrive(0.4, 0.4, 54, 54, 3);
+                    sleep(500);
+                    turn(95, 2, false);
+                    encoderDrive(0.8, 0.8, 50, 50, 3);
+                    sleep(500);
                     intake(true, false);
-                    encoderDrive(0.4, 0.4, -54, -54, 3);
-                    turn(0, 3, true);
+                    encoderDrive(0.4, 0.4, -14, -14, 3);
+                    intake(false, false);
                     break;
 
                 }
