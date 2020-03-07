@@ -188,7 +188,7 @@ public abstract class Auto extends LinearOpMode {
         Orientation orientation = aresBot.imu.getAngularOrientation();
 
         if (!isStrongTurn) {
-            PCoefficient = 0.095;
+            PCoefficient = 0.0095;
         } else {
             PCoefficient = 0.02;
         }
@@ -298,6 +298,8 @@ public abstract class Auto extends LinearOpMode {
     public void detectSkystone(boolean isOnBlue, boolean isOnRed) {
 
         aresBot.Skystone.activate();
+
+
 
         while (opModeIsActive()) {
             for (VuforiaTrackable trackable : aresBot.allTrackables) {

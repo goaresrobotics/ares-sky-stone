@@ -21,8 +21,8 @@ public class lift {
 
     double armPower;
 
-    double dropperPosition = 0.58;
-    double spinnerPosition = 0.09;
+    double dropperPosition = 0.35;
+    double spinnerPosition = 0.88;
 
     DcMotor liftMotor;
     double liftPower;
@@ -216,18 +216,18 @@ public class lift {
             liftMotor.setPower(liftPower);
 
         if (x) {
-            dropperPosition = 0.31;
+            dropperPosition = 0.17;
         }
 
         if (y) {
-            dropperPosition = 0.9;
+            dropperPosition = 0.35;
         }
 
         dropper.setPosition(dropperPosition);
 
 
         if (left_bumper) {
-            spinnerPosition = 0.9;
+            spinnerPosition = 0.88;
         } else {
 
             if (right_bumper) {
