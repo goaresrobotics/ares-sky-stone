@@ -22,9 +22,9 @@ public class insidePositionGrabTrayBlue extends Auto {
     public void run(){
 
         encoderDrive(0.4, 0.4, firstMove, firstMove, 2);
-        turn(firstTurn, 3);
+        turn(firstTurn, 3, false);
         encoderDrive(0.4, 0.4, secondMove, secondMove, 7);
-        turn(secondTurn,3);
+        turn(secondTurn,3, false);
         encoderDrive(0.2, 0.2, thirdMove, thirdMove, 3);
         trayGrab();
         sleep(1000);
@@ -32,7 +32,8 @@ public class insidePositionGrabTrayBlue extends Auto {
         encoderDrive(0.1,0.1,-0.3,-0.3,2);
         trayRelease();
         encoderDrive(0.4,0.4, 24,24,5);
-        turn(-90,3);
+        turn(-90,3, false);
+        trayGrab();
 
         //encoderDrive(0.3, 0.3, fourthMove, fourthMove,  7);
         //turn(thirdTurn,3);

@@ -73,7 +73,7 @@ public class lift {
 
     public void runLift(boolean dpad_down, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry, boolean dpadLeft, boolean dpadUp) {
 
-      if(hasStarted = false) {
+        if(hasStarted = false) {
 
             armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
