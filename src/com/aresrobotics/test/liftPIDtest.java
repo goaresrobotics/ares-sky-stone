@@ -1,28 +1,38 @@
-package com.aresrobotics.subSystems;
+package com.aresrobotics.test;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class lift {
+@Config
+public class liftPIDtest {
 
     Servo spinner;
     Servo dropper;
-    DcMotor armRotate;
+    DcMotorEx armRotate;
     double whereArmStopped;
     double armCurrentPosition;
     boolean isArmMoving = false;
     double stoppedMotorPower;
     double position = 0;
     double PC = 0.025;
+    double P = 1;
+    double I = 1;
+    double D = 1;
+    double F = 1;
 
-    double armPower;
+    PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, I, D, F);
 
-    double dropperPosition = 0.35;
-    double spinnerPosition = 0.88;
+    double dropperPosition = 0.58;
+    double spinnerPosition = 0.09;
 
     DcMotor liftMotor;
     double liftPower;
@@ -42,14 +52,18 @@ public class lift {
 
     }
 
-    public void initLift(HardwareMap hwMap) {
+    public void initLift(HardwareMap hwMap, Telemetry telemetry) {
 
         liftMotor = hwMap.dcMotor.get("liftMotor");
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         spinner = hwMap.servo.get("spinner");
         dropper = hwMap.servo.get("dropper");
-        armRotate = hwMap.dcMotor.get("armRotate");
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        TelemetryPacket packet = new TelemetryPacket();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+
 
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -59,11 +73,10 @@ public class lift {
     int liftHeightValue = 0;
 
 
-    public void runLift(boolean dpad_down, boolean dpad_up, double right_trigger, double left_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y, Telemetry telemetry) {
+    public void runLift(boolean dpad_down, boolean dpad_up, double left_trigger, double right_trigger, boolean x, boolean y, boolean left_bumper, boolean right_bumper, double left_stick_y) {
 
         liftPosition = liftMotor.getCurrentPosition() * COUNTS_PER_INCH;
 
-        /*
         if(liftHeightValue < 0){
 
             liftHeightValue = 0;
@@ -89,18 +102,18 @@ public class lift {
             if (dpad_down == false) {
                 prevValue = false;
             }
-        } */
+        }
 
         if (right_trigger > 0) {
 
-            liftPower = -right_trigger;
+            liftPower = right_trigger;
             hasReachedIncrement = true;
 
         }
 
         if (left_trigger > 0) {
 
-            liftPower = left_trigger;
+            liftPower = -left_trigger;
             hasReachedIncrement = true;
 
         }
@@ -203,35 +216,25 @@ public class lift {
             liftMotor.setPower(liftPower);
             */
 
-            if(liftMotor.getCurrentPosition() > 0){
-                liftPower = -0.3;
-            }
-
-            if (liftMotor.getCurrentPosition() < -3450){
-
-                liftPower = 0;
-
-            }
-
             liftMotor.setPower(liftPower);
 
         if (x) {
-            dropperPosition = 0.17;
+            dropperPosition = 0.31;
         }
 
         if (y) {
-            dropperPosition = 0.35;
+            dropperPosition = 0.58;
         }
 
         dropper.setPosition(dropperPosition);
 
 
         if (left_bumper) {
-            spinnerPosition = 0.88;
+            spinnerPosition = 1;
         } else {
 
             if (right_bumper) {
-                spinnerPosition = 0.02;
+                spinnerPosition = 0.04;
             }
         }
 
@@ -263,26 +266,7 @@ public class lift {
             position-=1;
 
         }
-
-        armPower = (position-armRotate.getCurrentPosition())*PC;
-
-        if(position <= -250){
-
-            position = -249;
-
-        }
-
-        if(position >= 1){
-
-            position = 0;
-
-        }
-
-        armRotate.setPower(armPower);
-
-        telemetry.addData("Position", position);
-        telemetry.addData("Power", armPower);
-        telemetry.update();
-
+        armRotate.setPower((position-armRotate.getCurrentPosition())*PC);
+        armRotate.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidfCoefficients);
     }
 }

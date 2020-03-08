@@ -9,6 +9,7 @@ public class insidePositionSitUnderBridge extends Auto {
 
         sleep(5000);
         encoderDrive(0.3,0.3,14,14,5);
+        trayGrab();
 
     }
 }
